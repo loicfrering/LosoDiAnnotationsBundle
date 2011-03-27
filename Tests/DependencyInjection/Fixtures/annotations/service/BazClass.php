@@ -1,0 +1,6 @@
+<?php
+/** @Service */
+class BazClass
+{
+
+}
