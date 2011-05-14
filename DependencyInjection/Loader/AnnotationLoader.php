@@ -6,7 +6,6 @@ use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
@@ -24,6 +23,7 @@ class AnnotationLoader extends Loader
     {
         $this->container = $container;
         $this->annotations = array(
+            'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Service',
             'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Inject',
             'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Value'
         );
@@ -68,50 +68,18 @@ class AnnotationLoader extends Loader
 
     private function reflectDefinition($reflClass)
     {
-        $definition = new Definition($reflClass->getName());
+        $id = null;
+        $definition = null;
 
-        if ($annot = $this->reader->getClassAnnotation($reflClass, 'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Service')) {
-            $id = $this->extractServiceName($reflClass, $annot);
-
-            if (isset($annot->scope)) {
-                $definition->setScope($annot->scope);
-            }
-
-            if (isset($annot->public)) {
-                $definition->setPublic($annot->public);
-            }
-
-            if (isset($annot->factoryMethod)) {
-                $definition->setFactoryMethod($annot->factoryMethod);
-            }
-
-            if (isset($annot->factoryService)) {
-                $definition->setFactoryService($annot->factoryService);
-            }
-
-            if (isset($annot->configurator)) {
-                if (is_string($annot->configurator)) {
-                    $definition->setConfigurator($annot->configurator);
-                } else {
-                    $definition->setConfigurator(array($this->resolveServices($annot->configurator[0]), $annot->configurator[1]));
+        foreach ($this->annotations as $annotClass) {
+            if ($annot = $this->reader->getClassAnnotation($reflClass, $annotClass)) {
+                if (null === $definition) {
+                    $definition = new Definition($reflClass->getName());
                 }
+                $id = $annot->define($reflClass, $definition);
             }
-
-            if (isset($annot->tags)) {
-                if (!is_array($annot->tags)) {
-                    throw new \InvalidArgumentException(sprintf('Parameter "tags" must be an array for service "%s" in %s.', $id, $reflClass->getName()));
-                }
-                foreach ($annot->tags as $tag) {
-                    if (!isset($tag['name'])) {
-                        throw new \InvalidArgumentException(sprintf('A "tags" entry is missing a "name" key must be an array for service "%s" in %s.', $id, $reflClass->getName()));
-                    }
-                    $name = $tag['name'];
-                    unset($tag['name']);
-
-                    $definition->addTag($name, $tag);
-                }
-            }
-
+        }
+        if (null !== $id) {
             $this->reflectProperties($reflClass, $definition);
             $this->reflectMethods($reflClass, $definition);
             $this->reflectConstructor($reflClass, $definition);
@@ -156,55 +124,5 @@ class AnnotationLoader extends Loader
         } catch (\ReflectionException $e) {
             // No constructor
         }
-    }
-
-    private function extractServiceName($reflClass, $annot)
-    {
-        $serviceName = $annot->value ?: $annot->name;
-
-        if (null === $serviceName) {
-            $className = $reflClass->getName();
-            if (false !== ($pos = strrpos($className, '_'))) {
-                $serviceName = lcfirst(substr($className, $pos + 1));
-            } else if (false !== ($pos = strrpos($className, '\\'))) {
-                $serviceName = lcfirst(substr($className, $pos + 1));
-            } else {
-                $serviceName = lcfirst($className);
-            }
-        }
-
-        return $serviceName;
-    }
-
-    /**
-     * Resolves services.
-     *
-     * @param string $value
-     * @return void
-     */
-    private function resolveServices($value)
-    {
-        if (is_array($value)) {
-            $value = array_map(array($this, 'resolveServices'), $value);
-        } else if (is_string($value) && 0 === strpos($value, '@')) {
-            if (0 === strpos($value, '@?')) {
-                $value = substr($value, 2);
-                $invalidBehavior = ContainerInterface::IGNORE_ON_INVALID_REFERENCE;
-            } else {
-                $value = substr($value, 1);
-                $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
-            }
-
-            if ('=' === substr($value, -1)) {
-                $value = substr($value, 0, -1);
-                $strict = false;
-            } else {
-                $strict = true;
-            }
-
-            $value = new Reference($value, $invalidBehavior, $strict);
-        }
-
-        return $value;
     }
 }
