@@ -25,6 +25,7 @@ class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
         $loader = new AnnotationLoader($container);
         $loader->load(self::$fixturesPath . '/annotations/' . $path);
         $container->setDefinition('doctrine.orm.entity_manager', new Definition('Doctrine\ORM\EntityManager'));
+        $container->setDefinition('doctrine.orm.test_entity_manager', new Definition('Doctrine\ORM\EntityManager'));
         $container->compile();
         return $container->getDefinitions();
     }
@@ -33,8 +34,8 @@ class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
     {
         $services = self::loadServices('repository/valid');
 
-        $this->assertTrue(isset($services[strtolower('loso.doctrine.metadata.FooEntity')]), 'CompilerPass registers metadata service for repository\'s entity');
-        $metadataDefinition = $services[strtolower('loso.doctrine.metadata.FooEntity')];
+        $this->assertTrue(isset($services[strtolower('loso.doctrine.metadata.default.FooEntity')]), 'CompilerPass registers metadata service for repository\'s entity');
+        $metadataDefinition = $services[strtolower('loso.doctrine.metadata.default.FooEntity')];
         $this->assertEquals('doctrine.orm.entity_manager', $metadataDefinition->getFactoryService());
         $this->assertEquals('getClassMetadata', $metadataDefinition->getFactoryMethod());
         $this->assertEquals(array('FooEntity'), $metadataDefinition->getArguments());
@@ -42,7 +43,17 @@ class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(isset($services[strtolower('fooRepository')]), '->load() parses repository classes');
         $repositoryDefinition = $services[strtolower('fooRepository')];
         $this->assertEquals('FooRepository', $repositoryDefinition->getClass(), '->load() parses the class attribute');
-        $this->assertEquals(array(new Reference('doctrine.orm.entity_manager'), new Reference('loso.doctrine.metadata.FooEntity')), $repositoryDefinition->getArguments());
+        $this->assertEquals(array(new Reference('doctrine.orm.entity_manager'), new Reference('loso.doctrine.metadata.default.FooEntity')), $repositoryDefinition->getArguments());
+    }
+
+    public function testParticularEntityManager()
+    {
+        $services = self::loadServices('repository/valid');
+
+        $this->assertTrue(isset($services[strtolower('fooRepositoryWithParticularEntityManager')]), '->load() parses repository classes');
+        $repositoryDefinition = $services[strtolower('fooRepositoryWithParticularEntityManager')];
+        $this->assertEquals('FooRepositoryWithParticularEntityManager', $repositoryDefinition->getClass(), '->load() parses the class attribute');
+        $this->assertEquals(array(new Reference('doctrine.orm.test_entity_manager'), new Reference('loso.doctrine.metadata.test.FooEntity')), $repositoryDefinition->getArguments());
     }
 
     public function testInvalidArgumentExceptionThrownForInvalidRepository()
