@@ -2,7 +2,7 @@
 use Doctrine\ORM\EntityRepository;
 
 /** @Repository("FooEntity") */
-class FooRepository extends EntityRepository
+class FooRepository extends Entityrepository
 {
 
 }

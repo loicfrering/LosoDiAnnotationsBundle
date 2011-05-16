@@ -15,6 +15,10 @@ final class Repository extends Annotation
     {
         $entity = $this->value ?: $this->entity;
 
+        if (null === $entity) {
+            throw new \InvalidArgumentException(sprintf('Entity name must be setted in @Repository for class "%s".', $reflClass->getName()));
+        }
+
         $id = $this->extractServiceName($reflClass);
         $definition->setArguments(array(new Reference('doctrine.orm.entity_manager'), new Reference('loso.doctrine.metadata.' . $entity)));
         $definition->addTag('loso.doctrine.repository', array('entity' => $entity));

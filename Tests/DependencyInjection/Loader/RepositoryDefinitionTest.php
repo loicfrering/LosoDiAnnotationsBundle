@@ -31,9 +31,9 @@ class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
 
     public function testRepositoryDefinition()
     {
-        $services = self::loadServices('repository');
+        $services = self::loadServices('repository/valid');
 
-        $this->assertTrue(isset($services[strtolower('loso.doctrine.metadata.FooEntity')]), 'metadata service for repository\'s entity is registered');
+        $this->assertTrue(isset($services[strtolower('loso.doctrine.metadata.FooEntity')]), 'CompilerPass registers metadata service for repository\'s entity');
         $metadataDefinition = $services[strtolower('loso.doctrine.metadata.FooEntity')];
         $this->assertEquals('doctrine.orm.entity_manager', $metadataDefinition->getFactoryService());
         $this->assertEquals('getClassMetadata', $metadataDefinition->getFactoryMethod());
@@ -43,5 +43,19 @@ class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
         $repositoryDefinition = $services[strtolower('fooRepository')];
         $this->assertEquals('FooRepository', $repositoryDefinition->getClass(), '->load() parses the class attribute');
         $this->assertEquals(array(new Reference('doctrine.orm.entity_manager'), new Reference('loso.doctrine.metadata.FooEntity')), $repositoryDefinition->getArguments());
+    }
+
+    public function testInvalidArgumentExceptionThrownForInvalidRepository()
+    {
+        $container = new ContainerBuilder();
+        $loader = new AnnotationLoader($container);
+
+        try {
+            $loader->load(self::$fixturesPath . '/annotations/repository/invalid');
+            $this->fail('InvalidArgumentException not thrown!');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\InvalidArgumentException', $e);
+            $this->assertEquals('Entity name must be setted in @Repository for class "InvalidFooRepository".', $e->getMessage());
+        }
     }
 }
