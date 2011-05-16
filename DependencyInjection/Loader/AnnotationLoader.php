@@ -24,6 +24,7 @@ class AnnotationLoader extends Loader
         $this->container = $container;
         $this->annotations = array(
             'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Service',
+            'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Repository',
             'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Inject',
             'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Value'
         );
