@@ -26,7 +26,9 @@ final class Repository extends Annotation
         }
 
         $id = $this->extractServiceName($reflClass);
-        $definition->setArguments(array(new Reference($entityManager), new Reference('loso.doctrine.metadata.' . $entityManagerName . '.' . $entity)));
+        $entityMetadataRefId = 'loso.doctrine.metadata.' . $entityManagerName . '.' . str_replace(array('\\', ':'), '.', $entity);
+
+        $definition->setArguments(array(new Reference($entityManager), new Reference($entityMetadataRefId)));
         $definition->addTag('loso.doctrine.repository', array(
             'entity' => $entity,
             'entityManager' => $entityManagerName

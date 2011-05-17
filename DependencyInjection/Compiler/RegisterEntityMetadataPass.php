@@ -20,7 +20,7 @@ class RegisterEntityMetadataPass implements CompilerPassInterface
                 $entityManager = sprintf('doctrine.orm.%s_entity_manager', $this->entityManager);
             }
 
-            $id = 'loso.doctrine.metadata.' . $entityManagerName . '.' . $entity;
+            $id = 'loso.doctrine.metadata.' . $entityManagerName . '.' . str_replace(array('\\', ':'), '.', $entity);
 
             $definition->setFactoryService($entityManager);
             $definition->setFactoryMethod('getClassMetadata');
