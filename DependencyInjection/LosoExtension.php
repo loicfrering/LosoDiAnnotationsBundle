@@ -12,13 +12,20 @@ use LoSo\LosoBundle\DependencyInjection\Loader\AnnotationLoader;
  */
 class LosoExtension extends Extension
 {
+    private $loader;
+
     public function load(array $configs, ContainerBuilder $container)
     {
+        $this->setUpLoader($container);
+
         $config = $configs[0];
         if (isset($config['service_scan'])) {
             foreach ($config['service_scan'] as $scanName => $scanConfig) {
-                if (isset($scanConfig['dir']) && is_array($scanConfig['dir'])) {
-                    $this->loadDirectory($scanConfig['dir'], $container);
+                if (isset($scanConfig['dir'])) {
+                    if (!is_array($scanConfig['dir'])) {
+                        $scanConfig['dir'] = array($scanConfig['dir']);
+                    }
+                    $this->loadDirectories($scanConfig['dir']);
                 } else {
                     $this->loadBundle($scanName, $scanConfig, $container);
                 }
@@ -26,11 +33,17 @@ class LosoExtension extends Extension
         }
     }
 
-    private function loadDirectories(array $directories, ContainerBuilder $container)
+    private function setUpLoader(ContainerBuilder $container)
+    {
+        $this->loader = new AnnotationLoader($container);
+        $this->loader->setAnnotationNamespaceAlias('loso');
+    }
+
+    private function loadDirectories(array $directories)
     {
         foreach ($directories as $dir) {
             if (is_dir($dir)) {
-                $this->loadDir($dir, $container);
+                $this->loadDir($dir);
             } else {
                 throw new \InvalidArgumentException(sprintf('Invalid scan directory "%s".', $dir));
             }
@@ -48,13 +61,13 @@ class LosoExtension extends Extension
                     foreach ($config['base_namespace'] as $baseNamespace) {
                         $dir = $bundleDir.'/'.$baseNamespace;
                         if (is_dir($dir)) {
-                            $this->loadDir($dir, $container);
+                            $this->loadDir($dir);
                         } else {
                             throw new \InvalidArgumentException(sprintf('Invalid base namespace "%s" for bundle "%s".', $baseNamespace, $bundleName));
                         }
                     }
                 } else {
-                    $this->loadDir($bundleDir, $container);
+                    $this->loadDir($bundleDir);
                 }
                 $isValidBundle = true;
                 break;
@@ -66,9 +79,8 @@ class LosoExtension extends Extension
         }
     }
 
-    private function loadDir($dir, ContainerBuilder $container)
+    private function loadDir($dir)
     {
-        $loader = new AnnotationLoader($container);
-        return $loader->load($dir);
+        return $this->loader->load($dir);
     }
 }

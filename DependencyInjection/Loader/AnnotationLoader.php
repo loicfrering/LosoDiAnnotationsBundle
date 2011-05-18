@@ -29,8 +29,23 @@ class AnnotationLoader extends Loader
             'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Value'
         );
         $this->reader = new AnnotationReader();
-        $this->reader->setDefaultAnnotationNamespace('LoSo\LosoBundle\DependencyInjection\Loader\Annotations\\');
         $this->reader->setAutoloadAnnotations(true);
+    }
+
+    public function setAnnotationNamespaceAlias($alias)
+    {
+        $this->reader->setAnnotationNamespaceAlias('LoSo\LosoBundle\DependencyInjection\Loader\Annotations\\', $alias);
+        return $this;
+    }
+
+    public function useDefaultAnnotationNamespace($useDefaultAnnotationNamespace)
+    {
+        if ($useDefaultAnnotationNamespace) {
+            $this->reader->setDefaultAnnotationNamespace('LoSo\LosoBundle\DependencyInjection\Loader\Annotations\\');
+        } else {
+            $this->reader->setDefaultAnnotationNamespace('');
+        }
+        return $this;
     }
 
     public function load($path, $type = null)

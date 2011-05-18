@@ -19,6 +19,7 @@ class AnnotationLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerBuilder();
         $loader = new AnnotationLoader($container);
+        $loader->useDefaultAnnotationNamespace(true);
         $loader->load(self::$fixturesPath . '/annotations/' . $path);
         return $container->getDefinitions();
     }
@@ -65,6 +66,7 @@ class AnnotationLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerBuilder();
         $loader = new AnnotationLoader($container);
+        $loader->useDefaultAnnotationNamespace(true);
 
         try {
             $loader->load(self::$fixturesPath . '/annotations/inject/invalid/invalid1');
