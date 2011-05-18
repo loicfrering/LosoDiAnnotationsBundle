@@ -17,6 +17,7 @@ class LosoExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $this->setUpLoader($container);
+        $bundles = $container->getParameter('kernel.bundles');
 
         $config = $configs[0];
         if (isset($config['service_scan'])) {
@@ -26,8 +27,10 @@ class LosoExtension extends Extension
                         $scanConfig['dir'] = array($scanConfig['dir']);
                     }
                     $this->loadDirectories($scanConfig['dir']);
+                } else if(isset($bundles[$scanName])) {
+                    $this->loadBundle($scanName, $bundles[$scanName], $scanConfig, $container);
                 } else {
-                    $this->loadBundle($scanName, $scanConfig, $container);
+                    throw new \UnexpectedValueException(sprintf('Invalid service_scan definition "%s", must be a valid Bundle or define a directory to scan.', $scanName));
                 }
             }
         }
@@ -50,32 +53,21 @@ class LosoExtension extends Extension
         }
     }
 
-    private function loadBundle($bundle, array $config, ContainerBuilder $container)
+    private function loadBundle($bundleName, $bundleClass, array $config)
     {
-        $isValidBundle = false;
-        foreach ($container->getParameter('kernel.bundles') as $bundleName => $bundleClass) {
-            if ($bundle === $bundleName) {
-                $bundle = new \ReflectionClass($bundleClass);
-                $bundleDir = dirname($bundle->getFilename());
-                if (isset($config['base_namespace']) && is_array($config['base_namespace'])) {
-                    foreach ($config['base_namespace'] as $baseNamespace) {
-                        $dir = $bundleDir.'/'.$baseNamespace;
-                        if (is_dir($dir)) {
-                            $this->loadDir($dir);
-                        } else {
-                            throw new \InvalidArgumentException(sprintf('Invalid base namespace "%s" for bundle "%s".', $baseNamespace, $bundleName));
-                        }
-                    }
+        $bundle = new \ReflectionClass($bundleClass);
+        $bundleDir = dirname($bundle->getFilename());
+        if (isset($config['base_namespace']) && is_array($config['base_namespace'])) {
+            foreach ($config['base_namespace'] as $baseNamespace) {
+                $dir = $bundleDir.'/'.$baseNamespace;
+                if (is_dir($dir)) {
+                    $this->loadDir($dir);
                 } else {
-                    $this->loadDir($bundleDir);
+                    throw new \InvalidArgumentException(sprintf('Invalid base namespace "%s" for bundle "%s".', $baseNamespace, $bundleName));
                 }
-                $isValidBundle = true;
-                break;
             }
-        }
-
-        if (!$isValidBundle) {
-            throw new \InvalidArgumentException(sprintf('Invalid bundle "%s".', $bundle));
+        } else {
+            $this->loadDir($bundleDir);
         }
     }
 
