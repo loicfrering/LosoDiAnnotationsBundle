@@ -2,30 +2,28 @@
 
 namespace LoSo\LosoBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
+use LoSo\LosoBundle\DependencyInjection\Loader\DoctrineServicesUtils;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 
+/**
+ * CompilerPass which registers Doctrine entity metadatas necessary
+ * for repositories into the container.
+ *
+ * @author Loïc Frering <loic.frering@gmail.com>
+ */
 class RegisterEntityMetadataPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
+        $doctrineServicesUtils = new DoctrineServicesUtils();
+
         foreach ($container->findTaggedServiceIds('loso.doctrine.repository') as $repositoryId => $tag) {
-            $definition = new Definition('Doctrine\ORM\Mapping\ClassMetadata');
             $entity = $tag[0]['entity'];
-            $entityManagerName = $tag[0]['entityManager'];
-            $entityManager = 'doctrine.orm.entity_manager';
-            if ($entityManagerName != 'default') {
-                $entityManager = sprintf('doctrine.orm.%s_entity_manager', $this->entityManager);
-            }
+            $entityManager = $tag[0]['entityManager'];
 
-            $id = 'loso.doctrine.metadata.' . $entityManagerName . '.' . str_replace(array('\\', ':'), '.', $entity);
-
-            $definition->setFactoryService($entityManager);
-            $definition->setFactoryMethod('getClassMetadata');
-            $definition->setArguments(array($entity));
-
+            $definition = $doctrineServicesUtils->getEntityMetadataDefinition($entity, $entityManager);
+            $id = $doctrineServicesUtils->resolveEntityMetadataId($entity, $entityManager);
             $container->setDefinition($id, $definition);
         }
     }

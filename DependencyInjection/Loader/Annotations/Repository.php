@@ -3,6 +3,7 @@
 namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotations;
 
 use Doctrine\Common\Annotations\Annotation;
+use LoSo\LosoBundle\DependencyInjection\Loader\DoctrineServicesUtils;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -14,24 +15,22 @@ final class Repository extends Annotation
 
     public function define($reflClass, $definition)
     {
+        $doctrineServicesUtils = new DoctrineServicesUtils();
+
         $entity = $this->value ?: $this->entity;
-        $entityManagerName = !empty($this->entityManager) ? $this->entityManager : 'default';
-        $entityManager = 'doctrine.orm.entity_manager';
-        if ($entityManagerName != 'default') {
-            $entityManager = sprintf('doctrine.orm.%s_entity_manager', $this->entityManager);
-        }
+        $entityManager = !empty($this->entityManager) ? $this->entityManager : 'default';
 
         if (null === $entity) {
             throw new \InvalidArgumentException(sprintf('Entity name must be setted in @Repository for class "%s".', $reflClass->getName()));
         }
 
         $id = $this->extractServiceName($reflClass);
-        $entityMetadataRefId = 'loso.doctrine.metadata.' . $entityManagerName . '.' . str_replace(array('\\', ':'), '.', $entity);
-
-        $definition->setArguments(array(new Reference($entityManager), new Reference($entityMetadataRefId)));
+        $entityManagerRef = $doctrineServicesUtils->getEntityManagerReference($entityManager);
+        $entityMetadataRef = $doctrineServicesUtils->getEntityMetadataReference($entity, $entityManager);
+        $definition->setArguments(array($entityManagerRef, $entityMetadataRef));
         $definition->addTag('loso.doctrine.repository', array(
             'entity' => $entity,
-            'entityManager' => $entityManagerName
+            'entityManager' => $entityManager
         ));
 
         return $id;
