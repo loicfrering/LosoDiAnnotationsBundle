@@ -1,6 +1,6 @@
 <?php
 
-namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotations;
+namespace LoSo\LosoBundle\DependencyInjection\Annotations;
 
 use Doctrine\Common\Annotations\Annotation;
 use Symfony\Component\DependencyInjection\ContainerInterface;

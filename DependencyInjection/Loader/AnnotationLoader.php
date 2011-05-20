@@ -5,8 +5,8 @@ namespace LoSo\LosoBundle\DependencyInjection\Loader;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Doctrine\Common\Annotations\AnnotationReader;
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotations\DefinitionBuilder\ServiceDefinitionBuilder;
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotations\DefinitionBuilder\RepositoryDefinitionBuilder;
+use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ServiceDefinitionBuilder;
+use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\RepositoryDefinitionBuilder;
 
 /**
  * AnnotationLoader loads annotated class service definitions.
@@ -26,21 +26,21 @@ class AnnotationLoader extends Loader
         $this->reader->setAutoloadAnnotations(true);
 
         $this->builders = array(
-            'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Service' => new ServiceDefinitionBuilder($this->reader),
-            'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Repository' => new RepositoryDefinitionBuilder($this->reader)
+            'LoSo\LosoBundle\DependencyInjection\Annotations\Service' => new ServiceDefinitionBuilder($this->reader),
+            'LoSo\LosoBundle\DependencyInjection\Annotations\Repository' => new RepositoryDefinitionBuilder($this->reader)
         );
     }
 
     public function setAnnotationNamespaceAlias($alias)
     {
-        $this->reader->setAnnotationNamespaceAlias('LoSo\LosoBundle\DependencyInjection\Loader\Annotations\\', $alias);
+        $this->reader->setAnnotationNamespaceAlias('LoSo\LosoBundle\DependencyInjection\Annotations\\', $alias);
         return $this;
     }
 
     public function useDefaultAnnotationNamespace($useDefaultAnnotationNamespace)
     {
         if ($useDefaultAnnotationNamespace) {
-            $this->reader->setDefaultAnnotationNamespace('LoSo\LosoBundle\DependencyInjection\Loader\Annotations\\');
+            $this->reader->setDefaultAnnotationNamespace('LoSo\LosoBundle\DependencyInjection\Annotations\\');
         } else {
             $this->reader->setDefaultAnnotationNamespace('');
         }

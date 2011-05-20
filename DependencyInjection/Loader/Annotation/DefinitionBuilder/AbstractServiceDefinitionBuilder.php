@@ -1,6 +1,6 @@
 <?php
 
-namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotations\DefinitionBuilder;
+namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder;
 
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 abstract class AbstractServiceDefinitionBuilder extends AbstractAnnotationDefinitionBuilder
 {
-    private static $injectAnnot = 'LoSo\LosoBundle\DependencyInjection\Loader\Annotations\Inject';
+    private static $injectAnnot = 'LoSo\LosoBundle\DependencyInjection\Annotations\Inject';
 
     public function build(\ReflectionClass $reflClass, $annot)
     {

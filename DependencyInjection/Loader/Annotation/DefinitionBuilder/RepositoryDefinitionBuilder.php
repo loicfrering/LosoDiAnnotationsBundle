@@ -1,6 +1,6 @@
 <?php
 
-namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotations\DefinitionBuilder;
+namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder;
 
 use LoSo\LosoBundle\DependencyInjection\Loader\DoctrineServicesUtils;
 use Symfony\Component\DependencyInjection\ContainerInterface;
