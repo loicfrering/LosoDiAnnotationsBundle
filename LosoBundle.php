@@ -4,7 +4,7 @@ namespace LoSo\LosoBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
-use LoSo\LosoBundle\DependencyInjection\Compiler\RegisterEntityMetadataPass;
+use LoSo\LosoBundle\DependencyInjection\Compiler\RepositoryDefinitionPass;
 
 class LosoBundle extends Bundle
 {
@@ -12,6 +12,6 @@ class LosoBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new RegisterEntityMetadataPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION);
+        $container->addCompilerPass(new RepositoryDefinitionPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION);
     }
 }

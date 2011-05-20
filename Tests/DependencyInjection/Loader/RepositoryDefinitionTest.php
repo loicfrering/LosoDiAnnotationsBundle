@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use LoSo\LosoBundle\DependencyInjection\Loader\AnnotationLoader;
-use LoSo\LosoBundle\DependencyInjection\Compiler\RegisterEntityMetadataPass;
+use LoSo\LosoBundle\DependencyInjection\Compiler\RepositoryDefinitionPass;
 
 class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +21,7 @@ class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
     static private function loadServices($path)
     {
         $container = new ContainerBuilder();
-        $container->addCompilerPass(new RegisterEntityMetadataPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION);
+        $container->addCompilerPass(new RepositoryDefinitionPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION);
         $loader = new AnnotationLoader($container);
         $loader->useDefaultAnnotationNamespace(true);
         $loader->load(self::$fixturesPath . '/annotations/' . $path);
