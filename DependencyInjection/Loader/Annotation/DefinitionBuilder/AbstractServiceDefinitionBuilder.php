@@ -76,24 +76,6 @@ abstract class AbstractServiceDefinitionBuilder extends AbstractAnnotationDefini
         }
     }
 
-    protected function extractServiceName(\ReflectionClass $reflClass, $definedName = null)
-    {
-        $serviceName = $definedName;
-
-        if (null === $serviceName) {
-            $className = $reflClass->getName();
-            if (false !== ($pos = strrpos($className, '_'))) {
-                $serviceName = lcfirst(substr($className, $pos + 1));
-            } else if (false !== ($pos = strrpos($className, '\\'))) {
-                $serviceName = lcfirst(substr($className, $pos + 1));
-            } else {
-                $serviceName = lcfirst($className);
-            }
-        }
-
-        return $serviceName;
-    }
-
     protected function extractReferenceNameFromProperty($property)
     {
         return $this->filterUnderscore($property->getName());

@@ -3,6 +3,7 @@
 namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder;
 
 use LoSo\LosoBundle\DependencyInjection\Loader\DoctrineServicesUtils;
+use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\ServiceIdGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -15,7 +16,11 @@ class RepositoryDefinitionBuilder extends AbstractServiceDefinitionBuilder
     {
         $definitionHolder = parent::build($reflClass, $annot);
         $definition = $definitionHolder['definition'];
-        $id = $this->extractServiceName($reflClass, $annot->name);
+        $id = $annot->name;
+        if (empty($id)) {
+            $serviceIdGenerator = new ServiceIdGenerator();
+            $id = $serviceIdGenerator->generate($reflClass);
+        }
 
         $doctrineServicesUtils = new DoctrineServicesUtils();
 
