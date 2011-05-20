@@ -4,7 +4,6 @@ namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotations;
 
 use Doctrine\Common\Annotations\Annotation;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Reference;
 
 final class Service extends Annotation
 {
