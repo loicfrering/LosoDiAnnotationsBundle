@@ -5,6 +5,7 @@ namespace LoSo\LosoBundle\DependencyInjection\Loader;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Doctrine\Common\Annotations\AnnotationReader;
+use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ControllerDefinitionBuilder;
 use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ServiceDefinitionBuilder;
 use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\RepositoryDefinitionBuilder;
 
@@ -27,7 +28,8 @@ class AnnotationLoader extends Loader
 
         $this->builders = array(
             'LoSo\LosoBundle\DependencyInjection\Annotations\Service' => new ServiceDefinitionBuilder($this->reader),
-            'LoSo\LosoBundle\DependencyInjection\Annotations\Repository' => new RepositoryDefinitionBuilder($this->reader)
+            'LoSo\LosoBundle\DependencyInjection\Annotations\Repository' => new RepositoryDefinitionBuilder($this->reader),
+            'LoSo\LosoBundle\DependencyInjection\Annotations\Controller' => new ControllerDefinitionBuilder($this->reader)
         );
     }
 
