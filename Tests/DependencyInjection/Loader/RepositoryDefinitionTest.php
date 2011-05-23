@@ -51,8 +51,8 @@ class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
     {
         $services = self::loadServices('repository/valid');
 
-        $this->assertTrue(isset($services[strtolower('fooRepositoryWithParticularEntityManager')]), '->load() parses repository classes');
-        $repositoryDefinition = $services[strtolower('fooRepositoryWithParticularEntityManager')];
+        $this->assertTrue(isset($services['test.foo.repository']), '->load() parses repository classes');
+        $repositoryDefinition = $services['test.foo.repository'];
         $this->assertEquals('FooRepositoryWithParticularEntityManager', $repositoryDefinition->getClass(), '->load() parses the class attribute');
         $this->assertEquals(array(new Reference('doctrine.orm.test_entity_manager'), new Reference('loso.doctrine.metadata.test.FooEntity')), $repositoryDefinition->getArguments());
     }

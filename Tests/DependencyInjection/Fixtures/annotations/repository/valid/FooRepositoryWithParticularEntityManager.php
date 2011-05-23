@@ -1,7 +1,7 @@
 <?php
 use Doctrine\ORM\EntityRepository;
 
-/** @Repository(entity="FooEntity", entityManager="test") */
+/** @Repository(name="test.foo.repository", entity="FooEntity", entityManager="test") */
 class FooRepositoryWithParticularEntityManager extends EntityRepository
 {
 
