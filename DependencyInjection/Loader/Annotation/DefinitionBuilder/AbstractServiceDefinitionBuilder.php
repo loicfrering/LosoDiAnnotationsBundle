@@ -50,7 +50,7 @@ abstract class AbstractServiceDefinitionBuilder extends AbstractAnnotationDefini
     private function processMethods($methods, $definition, $reflClass)
     {
         foreach ($methods as $method) {
-            if ($method->getDeclaringClass()->getName() == $reflClass->getName() && strpos($method->getName(), 'set') === 0) {
+            if (strpos($method->getName(), 'set') === 0) {
                 if ($annot = $this->reader->getMethodAnnotation($method, self::$injectAnnot)) {
                     $arguments = array();
                     $parameters = $method->getParameters();
