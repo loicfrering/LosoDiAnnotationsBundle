@@ -39,7 +39,7 @@ abstract class AbstractServiceDefinitionBuilder extends AbstractAnnotationDefini
     private function processProperties($properties, $definition)
     {
         foreach ($properties as $property) {
-            if ($annot = $this->reader->getpropertyannotation($property, self::$injectAnnot)) {
+            if ($annot = $this->reader->getPropertyAnnotation($property, self::$injectAnnot)) {
                 $propertyName = $this->filterUnderscore($property->getName());
                 $serviceReference = new Reference($annot->value ?: $this->extractReferenceNameFromProperty($property));
                 $definition->addMethodCall('set' . ucfirst($propertyName), array($serviceReference));

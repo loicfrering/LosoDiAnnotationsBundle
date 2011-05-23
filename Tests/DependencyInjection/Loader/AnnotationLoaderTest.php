@@ -62,65 +62,6 @@ class AnnotationLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(isset($services[strtolower('barClassNamespace')]));
     }
 
-    public function testExceptionCorrectlyThrownForInvalidInjection()
-    {
-        $container = new ContainerBuilder();
-        $loader = new AnnotationLoader($container);
-        $loader->useDefaultAnnotationNamespace(true);
-
-        try {
-            $loader->load(self::$fixturesPath . '/annotations/inject/invalid/invalid1');
-            $this->fail('InvalidArgumentException not thrown!');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('\InvalidArgumentException', $e);
-            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalid1::setDependencies"', $e->getMessage());
-        }
-
-        try {
-            $loader->load(self::$fixturesPath . '/annotations/inject/invalid/invalid2');
-            $this->fail('InvalidArgumentException not thrown!');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('\InvalidArgumentException', $e);
-            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalid2::setDependencies"', $e->getMessage());
-        }
-
-        try {
-            $loader->load(self::$fixturesPath . '/annotations/inject/invalid/invalid3');
-            $this->fail('InvalidArgumentException not thrown!');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('\InvalidArgumentException', $e);
-            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalid3::setDependencies"', $e->getMessage());
-        }
-    }
-
-    public function testConstructorBasedInjection()
-    {
-        $services = self::loadServices('inject/valid');
-
-        $this->assertEquals(array(new Reference('fooService'), new Reference('barService')), $services['constructor.injection']->getArguments());
-        //$this->assertEquals(array('foo', new Reference('foo'), array(true, false)), $services['arguments']->getArguments(), '->load() parses the argument tags');
-    }
-
-    public function testSetterBasedInjection()
-    {
-        $services = self::loadServices('inject/valid');
-        $methodCalls = $services['setter.injection']->getMethodCalls();
-
-        $this->assertEquals(array('setFooService', array(new Reference('fooService'))), $methodCalls[0]);
-        $this->assertEquals(array('setBarService', array(new Reference('bar'))), $methodCalls[1]);
-        $this->assertEquals(array('setDependencies', array(new Reference('fooService'), new Reference('barService'))), $methodCalls[2]);
-        $this->assertEquals(array('setNamedDependencies', array(new Reference('foo'), new Reference('bar'))), $methodCalls[3]);
-    }
-
-    public function testPropertyBasedInjection()
-    {
-        $services = self::loadServices('inject/valid');
-        $methodCalls = $services['property.injection']->getMethodCalls();
-
-        $this->assertEquals(array('setFooService', array(new Reference('fooService'))), $methodCalls[0]);
-        $this->assertEquals(array('setBarService', array(new Reference('bar'))), $methodCalls[1]);
-    }
-
     public function testSupports()
     {
         $loader = new AnnotationLoader(new ContainerBuilder());
