@@ -8,6 +8,7 @@ $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
     'Symfony' => __DIR__.'/../../../../vendor/symfony',
     'Doctrine\\Common' => __DIR__.'/../../../../vendor/doctrine-common',
+    'Doctrine\\DBAL' => __DIR__.'/../../../../vendor/doctrine-dbal',
     'Doctrine\\ORM' => __DIR__.'/../../../../vendor/doctrine',
     'LoSo' => __DIR__.'/../../..'
 ));
