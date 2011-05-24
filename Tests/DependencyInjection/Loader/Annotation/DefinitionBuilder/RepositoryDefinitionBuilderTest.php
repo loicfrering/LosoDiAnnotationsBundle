@@ -51,6 +51,7 @@ class RepositoryDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
 
         $tag = $definition->getTag('loso.doctrine.repository');
         $this->assertNotEmpty($tag);
+        $this->assertEquals(1, count($tag));
         $this->assertEquals('FooEntity', $tag[0]['entity']);
         $this->assertEquals('default', $tag[0]['entityManager']);
     }
@@ -65,6 +66,7 @@ class RepositoryDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
 
         $tag = $definition->getTag('loso.doctrine.repository');
         $this->assertNotEmpty($tag);
+        $this->assertEquals(1, count($tag));
         $this->assertEquals('FooEntity', $tag[0]['entity']);
         $this->assertEquals('test', $tag[0]['entityManager']);
     }

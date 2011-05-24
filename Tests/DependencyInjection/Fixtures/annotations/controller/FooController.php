@@ -1,0 +1,5 @@
+<?php
+/** @Controller */
+class FooController
+{
+}
