@@ -2,95 +2,72 @@
 namespace LoSo\LosoBundle\Tests\DependencyInjection\Loader;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use LoSo\LosoBundle\DependencyInjection\Loader\AnnotationLoader;
 
 class AnnotationLoaderTest extends \PHPUnit_Framework_TestCase
 {
-    static private $fixturesPath;
-    static private $services;
+    private $fixturesPath;
 
-    static public function setUpBeforeClass()
+    public function setUp()
     {
-        self::$fixturesPath = realpath(__DIR__.'/../Fixtures/');
+        $this->fixturesPath = realpath(__DIR__ . '/../Fixtures/');
+
+        $this->serviceBuilder = $this->getMockBuilder('\LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ServiceDefinitionBuilder')
+                                     ->disableOriginalConstructor()
+                                     ->getMock();
+
+        $this->repositoryBuilder = $this->getMockBuilder('\LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\RepositoryDefinitionBuilder')
+                                        ->disableOriginalConstructor()
+                                        ->getMock();
+
+        $this->controllerBuilder = $this->getMockBuilder('\LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ControllerDefinitionBuilder')
+                                        ->disableOriginalConstructor()
+                                        ->getMock();
     }
 
-    static private function loadServices($path)
+    public function testLoadServices()
     {
         $container = new ContainerBuilder();
-        $loader = new AnnotationLoader($container);
+
+        $buildCallback = function ($reflClass, $annot) {
+             return array('id' => lcfirst($reflClass->getName()), 'definition' => new Definition($reflClass->getName()));
+         };
+
+        $this->serviceBuilder->expects($this->exactly(20))
+                             ->method('build')
+                             ->will($this->returnCallback($buildCallback));
+
+        $this->repositoryBuilder->expects($this->exactly(3))
+                             ->method('build')
+                             ->will($this->returnCallback($buildCallback));
+
+        $this->controllerBuilder->expects($this->exactly(2))
+                             ->method('build')
+                             ->will($this->returnCallback($buildCallback));
+
+        $builders = array(
+            'LoSo\LosoBundle\DependencyInjection\Annotations\Service' => $this->serviceBuilder,
+            'LoSo\LosoBundle\DependencyInjection\Annotations\Repository' => $this->repositoryBuilder,
+            'LoSo\LosoBundle\DependencyInjection\Annotations\Controller' => $this->controllerBuilder
+        );
+        $loader = new AnnotationLoader($container, $builders);
         $loader->useDefaultAnnotationNamespace(true);
-        $loader->load(self::$fixturesPath . '/annotations/' . $path);
-        return $container->getDefinitions();
-    }
 
-    public function testServiceDefinition()
-    {
-        $services = self::loadServices('service');
+        $loader->load($this->fixturesPath . '/annotations');
 
-        $this->assertTrue(isset($services['foo']), '->load() parses service elements');
-        $this->assertEquals('Symfony\\Component\\DependencyInjection\\Definition', get_class($services['foo']), '->load() converts service element to Definition instances');
-        $this->assertEquals('FooClass', $services['foo']->getClass(), '->load() parses the class attribute');
-
-        $this->assertEquals('container', $services['scope.container']->getScope());
-        $this->assertEquals('custom', $services['scope.custom']->getScope());
-        $this->assertEquals('prototype', $services['scope.prototype']->getScope());
-
-        $this->assertEquals('sc_configure', $services['configurator1']->getConfigurator(), '->load() parses the configurator tag');
-        $this->assertEquals(array(new Reference('baz'), 'configure'), $services['configurator2']->getConfigurator(), '->load() parses the configurator tag');
-        $this->assertEquals(array('BazClass', 'configureStatic'), $services['configurator3']->getConfigurator(), '->load() parses the configurator tag');
-
-        $this->assertEquals('getInstance', $services['constructor']->getFactoryMethod(), '->load() parses the factory_method attribute');
-        $this->assertEquals('foo', $services['factory.service']->getFactoryService());
-
-        /*$this->fail('Not implemented yet.');
-        $aliases = $container->getAliases();
-        $this->assertTrue(isset($aliases['alias_for_foo']), '->load() parses aliases');
-        $this->assertEquals('foo', (string) $aliases['alias_for_foo'], '->load() parses aliases');
-        $this->assertTrue($aliases['alias_for_foo']->isPublic());
-        $this->assertTrue(isset($aliases['another_alias_for_foo']));
-        $this->assertEquals('foo', (string) $aliases['another_alias_for_foo']);
-        $this->assertFalse($aliases['another_alias_for_foo']->isPublic());*/
-    }
-
-    public function testServiceNameResolution()
-    {
-        $services = self::loadServices('service');
-
-        $this->assertTrue(isset($services[strtolower('barClass')]));
-        $this->assertTrue(isset($services[strtolower('barClassOldNamespace')]));
-        $this->assertTrue(isset($services[strtolower('barClassNamespace')]));
+        $definitions = $container->getDefinitions();
+        $this->assertEquals(25, count($definitions));
+        $this->assertArrayHasKey(strtolower('fooClass'), $definitions);
+        $this->assertEquals('FooClass', $definitions[strtolower('fooclass')]->getClass());
     }
 
     public function testSupports()
     {
         $loader = new AnnotationLoader(new ContainerBuilder());
 
-        $this->assertTrue($loader->supports(self::$fixturesPath), '->supports() returns true if the resource is loadable');
-        $this->assertFalse($loader->supports(self::$fixturesPath . '/FooClass.php'), '->supports() returns false if the resource is not loadable');
+        $this->assertTrue($loader->supports($this->fixturesPath), '->supports() returns true if the resource is loadable');
+        $this->assertFalse($loader->supports($this->fixturesPath . '/FooClass.php'), '->supports() returns false if the resource is not loadable');
     }
-
-    /*public function testNonArrayTagThrowsException()
-    {
-        $loader = new YamlFileLoader(new ContainerBuilder(), new FileLocator(self::$fixturesPath.'/yaml'));
-        try {
-            $loader->load('badtag1.yml');
-            $this->fail('->load() should throw an exception when the tags key of a service is not an array');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('\InvalidArgumentException', $e, '->load() throws an InvalidArgumentException if the tags key is not an array');
-            $this->assertStringStartsWith('Parameter "tags" must be an array for service', $e->getMessage(), '->load() throws an InvalidArgumentException if the tags key is not an array');
-        }
-    }
-
-    public function testTagWithoutNameThrowsException()
-    {
-        $loader = new YamlFileLoader(new ContainerBuilder(), new FileLocator(self::$fixturesPath.'/yaml'));
-        try {
-            $loader->load('badtag2.yml');
-            $this->fail('->load() should throw an exception when a tag is missing the name key');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('\InvalidArgumentException', $e, '->load() throws an InvalidArgumentException if a tag is missing the name key');
-            $this->assertStringStartsWith('A "tags" entry is missing a "name" key must be an array for service ', $e->getMessage(), '->load() throws an InvalidArgumentException if a tag is missing the name key');
-        }
-    }*/
 }

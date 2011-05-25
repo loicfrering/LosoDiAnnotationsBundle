@@ -98,4 +98,40 @@ class ServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
         $definition = $this->buildDefinition('FooClassFactoryService', 'annotations/service/');
         $this->assertEquals('foo', $definition->getFactoryService());
     }
+
+    /*public function testAliases()
+    {
+        $this->fail('Not implemented yet.');
+        $aliases = $container->getAliases();
+        $this->assertTrue(isset($aliases['alias_for_foo']), '->load() parses aliases');
+        $this->assertEquals('foo', (string) $aliases['alias_for_foo'], '->load() parses aliases');
+        $this->assertTrue($aliases['alias_for_foo']->isPublic());
+        $this->assertTrue(isset($aliases['another_alias_for_foo']));
+        $this->assertEquals('foo', (string) $aliases['another_alias_for_foo']);
+        $this->assertFalse($aliases['another_alias_for_foo']->isPublic());
+    }
+
+    public function testNonArrayTagThrowsException()
+    {
+        $loader = new YamlFileLoader(new ContainerBuilder(), new FileLocator(self::$fixturesPath.'/yaml'));
+        try {
+            $loader->load('badtag1.yml');
+            $this->fail('->load() should throw an exception when the tags key of a service is not an array');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\InvalidArgumentException', $e, '->load() throws an InvalidArgumentException if the tags key is not an array');
+            $this->assertStringStartsWith('Parameter "tags" must be an array for service', $e->getMessage(), '->load() throws an InvalidArgumentException if the tags key is not an array');
+        }
+    }
+
+    public function testTagWithoutNameThrowsException()
+    {
+        $loader = new YamlFileLoader(new ContainerBuilder(), new FileLocator(self::$fixturesPath.'/yaml'));
+        try {
+            $loader->load('badtag2.yml');
+            $this->fail('->load() should throw an exception when a tag is missing the name key');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\InvalidArgumentException', $e, '->load() throws an InvalidArgumentException if a tag is missing the name key');
+            $this->assertStringStartsWith('A "tags" entry is missing a "name" key must be an array for service ', $e->getMessage(), '->load() throws an InvalidArgumentException if a tag is missing the name key');
+        }
+    }*/
 }
