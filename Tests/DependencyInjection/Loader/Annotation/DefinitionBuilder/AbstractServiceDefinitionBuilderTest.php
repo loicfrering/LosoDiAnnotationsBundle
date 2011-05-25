@@ -16,8 +16,6 @@ class AbstractServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->fixturesPath = realpath(__DIR__ . '/../../../Fixtures/');
         $reader = new AnnotationReader();
-        $reader->setAutoloadAnnotations(true);
-        $reader->setDefaultAnnotationNamespace('LoSo\LosoBundle\DependencyInjection\Annotations\\');
         $this->builder = $this->getMockBuilder('\LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\AbstractServiceDefinitionBuilder')
                               ->setConstructorArgs(array($reader))
                               ->getMockForAbstractClass();

@@ -39,7 +39,6 @@ class LosoExtension extends Extension
     private function setUpLoader(ContainerBuilder $container)
     {
         $this->loader = new AnnotationLoader($container);
-        $this->loader->setAnnotationNamespaceAlias('loso');
     }
 
     private function loadDirectories(array $directories)

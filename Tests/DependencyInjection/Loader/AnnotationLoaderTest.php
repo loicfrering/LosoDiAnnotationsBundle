@@ -53,7 +53,6 @@ class AnnotationLoaderTest extends \PHPUnit_Framework_TestCase
             'LoSo\LosoBundle\DependencyInjection\Annotations\Controller' => $this->controllerBuilder
         );
         $loader = new AnnotationLoader($container, $builders);
-        $loader->useDefaultAnnotationNamespace(true);
 
         $loader->load($this->fixturesPath . '/annotations');
 

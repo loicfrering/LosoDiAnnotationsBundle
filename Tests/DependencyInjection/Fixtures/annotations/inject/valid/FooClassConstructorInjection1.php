@@ -1,4 +1,7 @@
 <?php
+use LoSo\LosoBundle\DependencyInjection\Annotations\Inject;
+use LoSo\LosoBundle\DependencyInjection\Annotations\Service;
+
 /** @Service("constructor.injection1") */
 class FooClassConstructorInjection1
 {

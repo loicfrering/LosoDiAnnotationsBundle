@@ -23,7 +23,6 @@ class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
         $container = new ContainerBuilder();
         $container->addCompilerPass(new RepositoryDefinitionPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION);
         $loader = new AnnotationLoader($container);
-        $loader->useDefaultAnnotationNamespace(true);
         $loader->load(self::$fixturesPath . '/annotations/' . $path);
         $container->setDefinition('doctrine.orm.entity_manager', new Definition('Doctrine\ORM\EntityManager'));
         $container->setDefinition('doctrine.orm.test_entity_manager', new Definition('Doctrine\ORM\EntityManager'));
@@ -61,7 +60,6 @@ class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerBuilder();
         $loader = new AnnotationLoader($container);
-        $loader->useDefaultAnnotationNamespace(true);
 
         try {
             $loader->load(self::$fixturesPath . '/annotations/repository/invalid');

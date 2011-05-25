@@ -18,8 +18,6 @@ class ControllerDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->fixturesPath = realpath(__DIR__ . '/../../../Fixtures/');
         $reader = new AnnotationReader();
-        $reader->setAutoloadAnnotations(true);
-        $reader->setDefaultAnnotationNamespace('LoSo\LosoBundle\DependencyInjection\Annotations\\');
         $this->builder = new ControllerDefinitionBuilder($reader);
         $this->reader = $reader;
     }
