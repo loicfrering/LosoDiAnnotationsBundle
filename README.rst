@@ -24,6 +24,12 @@ License
 The files in this archive are released under the MIT license.
 You can find a copy of this license in the LICENSE file.
 
+Documentation
+-------------
+
+You can read the documentation in `Resources/doc/index.rst
+<https://github.com/loicfrering/LosoBundle/tree/master/Resources/doc/index.rst>`_
+
 Installation
 ------------
 
