@@ -103,6 +103,17 @@ class AbstractServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testExceptionCorrectlyThrownForInvalidPropertyInjection()
+    {
+        try {
+            $this->buildDefinition('FooClassInvalidPropertyInjection', 'annotations/inject/invalid/');
+            $this->fail('InvalidArgumentException not thrown!');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\InvalidArgumentException', $e);
+            $this->assertEquals('Annotation "@Inject" when specifying services id on property must have one string value for "FooClassInvalidPropertyInjection::fooService"', $e->getMessage());
+        }
+    }
+
     public function testExceptionCorrectlyThrownForInvalidSetterInjection()
     {
         try {

@@ -2,7 +2,7 @@
 /** @Service("property.injection") */
 class FooClassPropertyInjection
 {
-    /** @Inject*/
+    /** @Inject */
     private $fooService;
 
     public function setFooService($fooService)

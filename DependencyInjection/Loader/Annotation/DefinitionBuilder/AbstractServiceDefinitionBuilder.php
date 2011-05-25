@@ -81,7 +81,13 @@ abstract class AbstractServiceDefinitionBuilder extends AbstractAnnotationDefini
 
     private function extractReferenceForProperty($property, $annot)
     {
-        return new Reference($annot->value ?: $this->filterUnderscore($property->getName()));
+        if ($annot->value) {
+            if (!is_string($annot->value)) {
+                throw new \InvalidArgumentException(sprintf('Annotation "@Inject" when specifying services id on property must have one string value for "%s::%s"', $property->getDeclaringClass()->getName(), $property->getName()));
+            }
+            return new Reference($annot->value);
+        }
+        return new Reference($this->filterUnderscore($property->getName()));
     }
 
     private function filterUnderscore($value)
