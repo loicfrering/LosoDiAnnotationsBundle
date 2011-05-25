@@ -76,30 +76,57 @@ class AbstractServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('setNamedDependencies', array(new Reference('foo'), new Reference('bar'))), $methodCalls[3]);
     }
 
+    public function testExceptionCorrectlyThrownForInvalidConstructorInjection()
+    {
+        try {
+            $this->buildDefinition('FooClassInvalidConstructorInjection1', 'annotations/inject/invalid/');
+            $this->fail('InvalidArgumentException not thrown!');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\InvalidArgumentException', $e);
+            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalidConstructorInjection1::__construct"', $e->getMessage());
+        }
+
+        try {
+            $this->buildDefinition('FooClassInvalidConstructorInjection2', 'annotations/inject/invalid/');
+            $this->fail('InvalidArgumentException not thrown!');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\InvalidArgumentException', $e);
+            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalidConstructorInjection2::__construct"', $e->getMessage());
+        }
+
+        try {
+            $this->buildDefinition('FooClassInvalidConstructorInjection3', 'annotations/inject/invalid/');
+            $this->fail('InvalidArgumentException not thrown!');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\InvalidArgumentException', $e);
+            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalidConstructorInjection3::__construct"', $e->getMessage());
+        }
+    }
+
     public function testExceptionCorrectlyThrownForInvalidSetterInjection()
     {
         try {
-            $this->buildDefinition('FooClassInvalid1', 'annotations/inject/invalid/');
+            $this->buildDefinition('FooClassInvalidSetterInjection1', 'annotations/inject/invalid/');
             $this->fail('InvalidArgumentException not thrown!');
         } catch (\Exception $e) {
             $this->assertInstanceOf('\InvalidArgumentException', $e);
-            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalid1::setDependencies"', $e->getMessage());
+            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalidSetterInjection1::setDependencies"', $e->getMessage());
         }
 
         try {
-            $this->buildDefinition('FooClassInvalid2', 'annotations/inject/invalid/');
+            $this->buildDefinition('FooClassInvalidSetterInjection2', 'annotations/inject/invalid/');
             $this->fail('InvalidArgumentException not thrown!');
         } catch (\Exception $e) {
             $this->assertInstanceOf('\InvalidArgumentException', $e);
-            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalid2::setDependencies"', $e->getMessage());
+            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalidSetterInjection2::setDependencies"', $e->getMessage());
         }
 
         try {
-            $this->buildDefinition('FooClassInvalid3', 'annotations/inject/invalid/');
+            $this->buildDefinition('FooClassInvalidSetterInjection3', 'annotations/inject/invalid/');
             $this->fail('InvalidArgumentException not thrown!');
         } catch (\Exception $e) {
             $this->assertInstanceOf('\InvalidArgumentException', $e);
-            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalid3::setDependencies"', $e->getMessage());
+            $this->assertEquals('Annotation "@Inject" when specifying services id must have one id per method argument for "FooClassInvalidSetterInjection3::setDependencies"', $e->getMessage());
         }
     }
 }

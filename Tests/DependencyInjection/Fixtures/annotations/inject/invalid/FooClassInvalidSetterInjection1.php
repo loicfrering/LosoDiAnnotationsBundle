@@ -1,6 +1,6 @@
 <?php
 /** @Service */
-class FooClassInvalid1
+class FooClassInvalidSetterInjection1
 {
     /** @Inject({"foo", "bar"}) */
     public function setDependencies($fooService)
