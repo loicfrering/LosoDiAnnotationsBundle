@@ -41,9 +41,18 @@ class AbstractServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorInjection()
     {
-        $definition = $this->buildDefinition('FooClassConstructorInjection', 'annotations/inject/valid/');
+        $definition = $this->buildDefinition('FooClassConstructorInjection1', 'annotations/inject/valid/');
+        $this->assertEquals(array(new Reference('fooService')), $definition->getArguments());
 
+        $definition = $this->buildDefinition('FooClassConstructorInjection2', 'annotations/inject/valid/');
+        $this->assertEquals(array(new Reference('foo')), $definition->getArguments());
+
+        $definition = $this->buildDefinition('FooClassConstructorInjection3', 'annotations/inject/valid/');
         $this->assertEquals(array(new Reference('fooService'), new Reference('barService')), $definition->getArguments());
+
+        $definition = $this->buildDefinition('FooClassConstructorInjection4', 'annotations/inject/valid/');
+        $this->assertEquals(array(new Reference('foo'), new Reference('bar')), $definition->getArguments());
+
         //$this->assertEquals(array('foo', new Reference('foo'), array(true, false)), $definition->getArguments());
     }
 

@@ -35,7 +35,7 @@ class AnnotationLoaderTest extends \PHPUnit_Framework_TestCase
              return array('id' => lcfirst($reflClass->getName()), 'definition' => new Definition($reflClass->getName()));
          };
 
-        $this->serviceBuilder->expects($this->exactly(20))
+        $this->serviceBuilder->expects($this->exactly(23))
                              ->method('build')
                              ->will($this->returnCallback($buildCallback));
 
@@ -58,7 +58,7 @@ class AnnotationLoaderTest extends \PHPUnit_Framework_TestCase
         $loader->load($this->fixturesPath . '/annotations');
 
         $definitions = $container->getDefinitions();
-        $this->assertEquals(25, count($definitions));
+        $this->assertEquals(28, count($definitions));
         $this->assertArrayHasKey(strtolower('fooClass'), $definitions);
         $this->assertEquals('FooClass', $definitions[strtolower('fooclass')]->getClass());
     }

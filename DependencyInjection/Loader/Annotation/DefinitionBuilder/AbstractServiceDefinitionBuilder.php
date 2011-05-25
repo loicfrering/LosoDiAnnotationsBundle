@@ -28,11 +28,8 @@ abstract class AbstractServiceDefinitionBuilder extends AbstractAnnotationDefini
     private function processConstructor($constructor, $definition)
     {
         if ($annot = $this->reader->getMethodAnnotation($constructor, self::$injectAnnot)) {
-            $parameters = $constructor->getParameters();
-            foreach($parameters as $parameter) {
-                $serviceReference = new Reference($annot->value ?: $this->extractReferenceNameFromParameter($parameter));
-                $definition->addArgument($serviceReference);
-            }
+            $arguments = $this->extractReferencesForMethod($constructor, $annot);
+            $definition->setArguments($arguments);
         }
     }
 
@@ -41,8 +38,8 @@ abstract class AbstractServiceDefinitionBuilder extends AbstractAnnotationDefini
         foreach ($properties as $property) {
             if ($annot = $this->reader->getPropertyAnnotation($property, self::$injectAnnot)) {
                 $propertyName = $this->filterUnderscore($property->getName());
-                $serviceReference = new Reference($annot->value ?: $this->extractReferenceNameFromProperty($property));
-                $definition->addMethodCall('set' . ucfirst($propertyName), array($serviceReference));
+                $reference = $this->extractReferenceForProperty($property, $annot);
+                $definition->addMethodCall('set' . ucfirst($propertyName), array($reference));
             }
         }
     }
@@ -52,58 +49,46 @@ abstract class AbstractServiceDefinitionBuilder extends AbstractAnnotationDefini
         foreach ($methods as $method) {
             if (strpos($method->getName(), 'set') === 0) {
                 if ($annot = $this->reader->getMethodAnnotation($method, self::$injectAnnot)) {
-                    $arguments = array();
-                    $parameters = $method->getParameters();
-                    if (null === $annot->value) {
-                        foreach ($parameters as $parameter) {
-                            $arguments[] = new Reference($parameter->getName());
-                        }
-                    }
-                    else {
-                        if (!is_array($annot->value)) {
-                            $annot->value = array($annot->value);
-                        }
-                        if (count($annot->value) != $method->getNumberOfParameters()) {
-                            throw new \InvalidArgumentException(sprintf('Annotation "@Inject" when specifying services id must have one id per method argument for "%s::%s"', $method->getDeclaringClass()->getName(), $method->getName()));
-                        }
-                        foreach ($parameters as $index => $parameter) {
-                            $arguments[] = new Reference($annot->value[$index]);
-                        }
-                    }
+                    $arguments = $this->extractReferencesForMethod($method, $annot);
                     $definition->addMethodCall($method->getName(), $arguments);
                 }
             }
         }
     }
 
-    protected function extractReferenceNameFromProperty($property)
+    private function extractReferencesForMethod($method, $annot)
     {
-        return $this->filterUnderscore($property->getName());
+        $arguments = array();
+        $parameters = $method->getParameters();
+        if (null === $annot->value) {
+            foreach ($parameters as $parameter) {
+                $arguments[] = new Reference($parameter->getName());
+            }
+        }
+        else {
+            if (!is_array($annot->value)) {
+                $annot->value = array($annot->value);
+            }
+            if (count($annot->value) != $method->getNumberOfParameters()) {
+                throw new \InvalidArgumentException(sprintf('Annotation "@Inject" when specifying services id must have one id per method argument for "%s::%s"', $method->getDeclaringClass()->getName(), $method->getName()));
+            }
+            foreach ($parameters as $index => $parameter) {
+                $arguments[] = new Reference($annot->value[$index]);
+            }
+        }
+        return $arguments;
     }
 
-    protected function extractReferenceNameFromMethod($method)
+    private function extractReferenceForProperty($property, $annot)
     {
-        return $this->filterSetPrefix($method->getName());
+        return new Reference($annot->value ?: $this->filterUnderscore($property->getName()));
     }
 
-    protected function extractReferenceNameFromParameter($parameter)
-    {
-        return $parameter->getName();
-    }
-
-    protected function filterUnderscore($value)
+    private function filterUnderscore($value)
     {
         if(strpos($value, '_') === 0) {
             return substr($value, 1);
         }
         return $value;
-    }
-
-    protected function filterSetPrefix($value)
-    {
-        if(strpos($value, 'set') === 0) {
-            return lcfirst(substr($value, 3));
-        }
-        return lcfirst($value);
     }
 }
