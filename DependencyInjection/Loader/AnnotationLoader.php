@@ -5,6 +5,7 @@ namespace LoSo\LosoBundle\DependencyInjection\Loader;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Doctrine\Common\Annotations\AnnotationReader;
+use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\AnnotationDefinitionBuilderInterface;
 use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ControllerDefinitionBuilder;
 use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ServiceDefinitionBuilder;
 use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\RepositoryDefinitionBuilder;
@@ -20,17 +21,55 @@ class AnnotationLoader extends Loader
     private $reader;
     private $builders = array();
 
-    public function  __construct(ContainerBuilder $container)
+    public function  __construct(ContainerBuilder $container, array $builders = array())
     {
         $this->container = $container;
         $this->reader = new AnnotationReader();
         $this->reader->setAutoloadAnnotations(true);
 
-        $this->builders = array(
-            'LoSo\LosoBundle\DependencyInjection\Annotations\Service' => new ServiceDefinitionBuilder($this->reader),
-            'LoSo\LosoBundle\DependencyInjection\Annotations\Repository' => new RepositoryDefinitionBuilder($this->reader),
-            'LoSo\LosoBundle\DependencyInjection\Annotations\Controller' => new ControllerDefinitionBuilder($this->reader)
-        );
+        if (empty($builders)) {
+            $this->setBuilders(array(
+                'LoSo\LosoBundle\DependencyInjection\Annotations\Service' => new ServiceDefinitionBuilder($this->reader),
+                'LoSo\LosoBundle\DependencyInjection\Annotations\Repository' => new RepositoryDefinitionBuilder($this->reader),
+                'LoSo\LosoBundle\DependencyInjection\Annotations\Controller' => new ControllerDefinitionBuilder($this->reader)
+            ));
+        } else {
+            $this->setBuilders($builders);
+        }
+    }
+
+    public function addBuilder($annotation, $builder)
+    {
+        if ($builder instanceof AnnotationDefinitionBuilderInterface) {
+            $this->builders[$annotation] = $builder;
+        } else {
+            throw new \InvalidArgumentException('Builder must be an instance of AnnotationDefinitionBuilderInterface.');
+        }
+
+        return $this;
+    }
+
+    public function addBuilders(array $builders)
+    {
+        foreach ($builders as $annotation => $builder) {
+            $this->addBuilder($annotation, $builder);
+        }
+        return $this;
+    }
+
+    public function setBuilders(array $builders)
+    {
+        $this->clearBuilders();
+        foreach ($builders as $annotation => $builder) {
+            $this->addBuilder($annotation, $builder);
+        }
+        return $this;
+    }
+
+    public function clearBuilders()
+    {
+        $this->builders = array();
+        return $this;
     }
 
     public function setAnnotationNamespaceAlias($alias)
