@@ -10,13 +10,19 @@ projects.
 Requirements
 ------------
 
-LosoBundle requires PHP 5.3 or later.
-It has been tested with Symfony 2.0 Preview Release 8.
+LosoBundle requires PHP 5.3 or later. It has been tested with **Symfony
+v2.0.0BETA2**.
 
-You will need the following libraries in your vendor directory:
+You will need at least the following libraries in your vendor directory:
 
 * Doctrine\Common
 * Symfony
+
+If you want to use the functionalities around entity repositories, you will
+also need:
+
+* Doctrine\DBAL
+* Doctrine\ORM
 
 License
 -------
