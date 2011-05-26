@@ -30,6 +30,15 @@ Documentation
 You can read the documentation in `Resources/doc/index.rst
 <https://github.com/loicfrering/LosoBundle/tree/master/Resources/doc/index.rst>`_
 
+Tests
+-----
+
+LosoBundle is heavily tested! To run the tests, you'll need to set the path to
+the vendors libraries in Tests/bootstrap.php and run the following command from
+the project's root::
+
+    phpunit --colors --bootstrap Tests/bootstrap.php Tests
+
 Installation
 ------------
 

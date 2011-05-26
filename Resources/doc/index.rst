@@ -21,8 +21,17 @@ You will need the following libraries in your vendor directory:
 License
 -------
 
-The files in this archive are released under the MIT license.
-You can find a copy of this license in the LICENSE file.
+The files in this archive are released under the MIT license.  You can find a
+copy of this license in the LICENSE file.
+
+Tests
+-----
+
+LosoBundle is heavily tested! To run the tests, you'll need to set the path to
+the vendors libraries in Tests/bootstrap.php and run the following command from
+the project's root::
+
+    phpunit --colors --bootstrap Tests/bootstrap.php Tests
 
 Installation
 ------------
