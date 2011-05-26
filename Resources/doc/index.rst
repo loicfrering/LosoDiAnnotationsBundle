@@ -76,6 +76,51 @@ You can configure LosoBundle in one of the following ways in app/config/config.y
                     - dir1
                     - dir2
 
+Importing annotations
+---------------------
+
+There are 4 annotations available in LosoBundle::
+
+    @Service
+    @Repository
+    @Controller
+    @Inject
+
+In order to use these annotations in your classes, you need to import them via
+PHP's use statements.
+
+You can use a namespace alias for the annotations' namespace::
+
+    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+
+    /** @DI\Service */
+    class FooService
+    {
+        /** @DI\Inject */
+        public function __construct($barService)
+        {
+        }
+    }
+
+Or you can import each annotation::
+
+    use LoSo\LosoBundle\DependencyInjection\Annotations\Service;
+    use LoSo\LosoBundle\DependencyInjection\Annotations\Inject;
+
+    /** @Service */
+    class FooService
+    {
+        /** @Inject */
+        public function __construct($barService)
+        {
+        }
+    }
+
+.. tip::
+
+    The first way is the preferred way as it is less verbose and more explicit to
+    see in your code that the annotation your are currently using belongs to DI.
+
 Service definition
 ------------------
 
@@ -134,13 +179,15 @@ argument.
 
 Example::
 
-    /** @Service */
+    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+
+    /** @DI\Service */
     class MyService
     {
         protected $fooService;
         protected $barService;
 
-        /** @Inject */
+        /** @DI\Inject */
         public function __construct($fooService, $barService)
         {
             $this->fooService = $fooService;
@@ -157,12 +204,14 @@ Will declare in YAML::
 
 Setting explicit service id::
 
-    /** @Service */
+    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+
+    /** @DI\Service */
     class MyService
     {
         protected $fooService;
 
-        /** @Inject("foo.service") */
+        /** @DI\Inject("foo.service") */
         public function __construct($fooService)
         {
             $this->fooService = $fooService;
@@ -178,13 +227,15 @@ Will declare in YAML::
 
 With multiple constructor arguments::
 
-    /** @Service */
+    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+
+    /** @DI\Service */
     class MyService
     {
         protected $fooService;
         protected $barService;
 
-        /** @Inject({"foo.service", "bar.service"}) */
+        /** @DI\Inject({"foo.service", "bar.service"}) */
         public function __construct($fooService, $barService)
         {
             $this->fooService = $fooService;
@@ -209,27 +260,29 @@ inject, otherwise it will be determined thanks to the method name.
 
 Example::
 
-    /** @Service */
+    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+
+    /** @DI\Service */
     class MyService
     {
         protected $fooService;
         protected $barService;
 
-        /** @Inject */
+        /** @DI\Inject */
         public function setFooService($fooService)
         {
             $this->fooService = $fooService;
             return $this;
         }
 
-        /** @Inject("bar.service") */
+        /** @DI\Inject("bar.service") */
         public function setBarService($barService)
         {
             $this->barService = $barService;
             return $this;
         }
 
-        /** @Inject */
+        /** @DI\Inject */
         public function setDependencies1($fooService, $barService)
         {
             $this->fooService = $fooService;
@@ -237,7 +290,7 @@ Example::
             return $this;
         }
 
-        /** @Inject({"foo.service", "bar.service"}) */
+        /** @DI\Inject({"foo.service", "bar.service"}) */
         public function setDependencies2($fooService, $barService)
         {
             $this->fooService = $fooService;
@@ -267,13 +320,15 @@ can be explicitly specified, the property name will be used otherwise.
 
 Example::
 
-    /** @Service */
+    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+
+    /** @DI\Service */
     class MyService
     {
-        /** @Inject */
+        /** @DI\Inject */
         protected $fooService;
 
-        /** @Inject("bar.service") */
+        /** @DI\Inject("bar.service") */
         protected $barService;
 
         public function setFooService($fooService)
@@ -316,9 +371,10 @@ Usage::
 
 Example::
 
+    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
     use Doctrine\ORM\EntityRepository;
 
-    /** @Repository("FooBundle:Item") */
+    /** @DI\Repository("FooBundle:Item") */
     class ItemRepository extends EntityRepository
     {
         public function findByCategory($category)
@@ -333,10 +389,12 @@ Example::
 
 Now you can easily inject the repository in your controller::
 
-    /** @Controller */
+    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+
+    /** @DI\Controller */
     class ItemController
     {
-        /** @Inject **/
+        /** @DI\Inject **/
         public function __construct($itemRepository)
         {
             $this->itemRepository = $itemRepository;
