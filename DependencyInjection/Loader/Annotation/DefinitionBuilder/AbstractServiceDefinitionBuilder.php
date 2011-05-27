@@ -2,6 +2,7 @@
 
 namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -72,9 +73,7 @@ abstract class AbstractServiceDefinitionBuilder extends AbstractAnnotationDefini
             if (count($annot->value) != $method->getNumberOfParameters()) {
                 throw new \InvalidArgumentException(sprintf('Annotation "@Inject" when specifying services id must have one id per method argument for "%s::%s"', $method->getDeclaringClass()->getName(), $method->getName()));
             }
-            foreach ($parameters as $index => $parameter) {
-                $arguments[] = new Reference($annot->value[$index]);
-            }
+            $arguments = $this->resolveServices($annot->value);
         }
         return $arguments;
     }
@@ -85,9 +84,34 @@ abstract class AbstractServiceDefinitionBuilder extends AbstractAnnotationDefini
             if (!is_string($annot->value)) {
                 throw new \InvalidArgumentException(sprintf('Annotation "@Inject" when specifying services id on property must have one string value for "%s::%s"', $property->getDeclaringClass()->getName(), $property->getName()));
             }
-            return new Reference($annot->value);
+            return $this->resolveServices($annot->value);
         }
         return new Reference($this->filterUnderscore($property->getName()));
+    }
+
+    private function resolveServices($value)
+    {
+        if (is_array($value)) {
+            $value = array_map(array($this, 'resolveServices'), $value);
+        } else if (is_string($value) &&  false === strpos($value, '%')) {
+            if (0 === strpos($value, '?')) {
+                $value = substr($value, 1);
+                $invalidBehavior = ContainerInterface::IGNORE_ON_INVALID_REFERENCE;
+            } else {
+                $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
+            }
+
+            if ('=' === substr($value, -1)) {
+                $value = substr($value, 0, -1);
+                $strict = false;
+            } else {
+                $strict = true;
+            }
+
+            $value = new Reference($value, $invalidBehavior, $strict);
+        }
+
+        return $value;
     }
 
     private function filterUnderscore($value)
