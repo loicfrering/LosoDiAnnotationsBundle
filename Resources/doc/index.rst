@@ -79,7 +79,8 @@ Installation
 Configuration
 -------------
 
-You can configure LosoBundle in one of the following ways in app/config/config.yml::
+You can configure LosoBundle in one of the following ways in
+app/config/config.yml::
 
     loso:
         service_scan:
@@ -133,8 +134,9 @@ Or you can import each annotation::
 
 .. tip::
 
-    The first way is the preferred way as it is less verbose and more explicit to
-    see in your code that the annotation your are currently using belongs to DI.
+    The first way is the preferred way as it is less verbose and more explicit
+    to see in your code that the annotation your are currently using belongs to
+    DI.
 
 Service definition
 ------------------
@@ -142,8 +144,8 @@ Service definition
 @Service
 ~~~~~~~~
 
-The @Service annotation declare the class as managed by the container. You can
-specify all the options you would specify through XML or YAML.
+The `@Service` annotation declare the class as managed by the container. You
+can specify all the options you would specify through XML or YAML.
 
 Usage::
 
@@ -172,25 +174,37 @@ the class name. All the following three classes would have *myService* as id:
 @Inject
 ~~~~~~~
 
-The @Inject annotation declare a service's dependency that have to be injected
-by the container when the service is retrieved. You can declare dependencies
-upon the constructor, properties or setter methods.
+The `@Inject` annotation declare a service's dependency that have to be
+injected by the container when the service is retrieved. You can declare
+dependencies upon the constructor, properties or setter methods.
 
 Usage::
 
     @Inject
     @Inject("service.id")
-    @Inject({"service1.id", "service2.id", ...})
+    @Inject("?service.id")
+    @Inject("service.id=")
+    @Inject("?service.id=")
+    @Inject("%param.name%")
+    @Inject("string containing %param.name% parameter")
+    @Inject({"service1.id", "?service2.id", "service3.id=", "%param.name%", ...})
 
-Let's see the @Inject behavior in each of his emplacement possibilities.
+Services referenced in `@Inject` annotations follow some conventions similar to
+the YamlFileLoader:
+
+* A question mark `?` before a service id makes the reference optional.
+* An equal sign `=` at the end of a service id makes the reference not strict.
+* Parameters are surrounded with `%`
+
+Let's see the `@Inject` behavior in each of his emplacement possibilities.
 
 Constructor injection
 +++++++++++++++++++++
 
-Annotating the constructor with @Inject annotation will declare each arguments
-of the method as a dependency whose id is the argument id. For now you can't
-explicitly define the individual service id that needs to be injected as
-argument.
+Annotating the constructor with `@Inject` annotation will declare each
+arguments of the method as a dependency whose id is the argument id. For now
+you can't explicitly define the individual service id that needs to be injected
+as argument.
 
 Example::
 
@@ -268,7 +282,7 @@ Will declare in YAML::
 Setter injection
 ++++++++++++++++
 
-On a setter method, the @Inject annotation will declare a call method on the
+On a setter method, the `@Inject` annotation will declare a call method on the
 service with another service reference as parameter. The same way than
 previously, you can explicitly specify the id of the service you want to
 inject, otherwise it will be determined thanks to the method name.
@@ -328,10 +342,11 @@ Will declare in YAML::
 Property injection
 ++++++++++++++++++
 
-Finally, on a property, the @Inject annotation will also declare a method call
-on a setter whose method name is calculated among the property name and with
-the service reference you want to inject as parameter. The service reference id
-can be explicitly specified, the property name will be used otherwise.
+Finally, on a property, the `@Inject` annotation will also declare a method
+call on a setter whose method name is calculated among the property name and
+with the service reference you want to inject as parameter. The service
+reference id can be explicitly specified, the property name will be used
+otherwise.
 
 Example::
 
@@ -372,8 +387,8 @@ Repository definition
 ---------------------
 
 You can easily declare custom entity repositories in the service container
-thanks to the @Repository annotation. You just need to specifiy on which entity
-the repository will act for.
+thanks to the `@Repository` annotation. You just need to specifiy on which
+entity the repository will act for.
 
 Usage::
 
