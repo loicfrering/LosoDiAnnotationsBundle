@@ -18,4 +18,18 @@ class FooClassPropertyInjection
     public function setBarService($barService)
     {
     }
+
+    /** @Inject("?baz=") */
+    private $bazService;
+
+    public function setBazService($bazService)
+    {
+    }
+
+    /** @Inject("%param%") */
+    private $param;
+
+    public function setParam($param)
+    {
+    }
 }

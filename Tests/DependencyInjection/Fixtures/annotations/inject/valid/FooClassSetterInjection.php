@@ -24,4 +24,9 @@ class FooClassSetterInjection
     public function setNamedDependencies($fooService, $barService)
     {
     }
+
+    /** @Inject({"?foo", "bar=", "?baz=", "%param%"}) */
+    public function setParticularDependencies($fooService, $barService, $bazService, $param)
+    {
+    }
 }

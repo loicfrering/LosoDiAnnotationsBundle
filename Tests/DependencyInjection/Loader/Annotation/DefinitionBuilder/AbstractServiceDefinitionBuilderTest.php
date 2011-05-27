@@ -2,6 +2,7 @@
 namespace LoSo\LosoBundle\Tests\DependencyInjection\Loader\Annotation\DefinitionBuilder;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -49,9 +50,12 @@ class AbstractServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(new Reference('fooService'), new Reference('barService')), $definition->getArguments());
 
         $definition = $this->buildDefinition('FooClassConstructorInjection4', 'annotations/inject/valid/');
-        $this->assertEquals(array(new Reference('foo'), new Reference('bar')), $definition->getArguments());
-
-        //$this->assertEquals(array('foo', new Reference('foo'), array(true, false)), $definition->getArguments());
+        $this->assertEquals(array(
+            new Reference('foo', ContainerInterface::IGNORE_ON_INVALID_REFERENCE),
+            new Reference('bar', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, false),
+            new Reference('baz', ContainerInterface::IGNORE_ON_INVALID_REFERENCE, false),
+            '%param%'
+        ), $definition->getArguments());
     }
 
     public function testPropertyInjection()
@@ -61,6 +65,8 @@ class AbstractServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array('setFooService', array(new Reference('fooService'))), $methodCalls[0]);
         $this->assertEquals(array('setBarService', array(new Reference('bar'))), $methodCalls[1]);
+        $this->assertEquals(array('setBazService', array(new Reference('baz', ContainerInterface::IGNORE_ON_INVALID_REFERENCE, false))), $methodCalls[2]);
+        $this->assertEquals(array('setParam', array('%param%')), $methodCalls[3]);
     }
 
     public function testSettetInjection()
@@ -72,6 +78,12 @@ class AbstractServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('setBarService', array(new Reference('bar'))), $methodCalls[1]);
         $this->assertEquals(array('setDependencies', array(new Reference('fooService'), new Reference('barService'))), $methodCalls[2]);
         $this->assertEquals(array('setNamedDependencies', array(new Reference('foo'), new Reference('bar'))), $methodCalls[3]);
+        $this->assertEquals(array('setParticularDependencies', array(
+            new Reference('foo', ContainerInterface::IGNORE_ON_INVALID_REFERENCE),
+            new Reference('bar', ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE, false),
+            new Reference('baz', ContainerInterface::IGNORE_ON_INVALID_REFERENCE, false),
+            '%param%'
+        )), $methodCalls[4]);
     }
 
     public function testExceptionCorrectlyThrownForInvalidConstructorInjection()
