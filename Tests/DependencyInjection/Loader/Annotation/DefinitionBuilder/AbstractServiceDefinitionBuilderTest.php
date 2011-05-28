@@ -24,7 +24,9 @@ class AbstractServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
 
     private function buildDefinition($class, $path)
     {
-        require $this->fixturesPath . '/' . $path . $class . '.php';
+        if (!class_exists($class, false)) {
+            require $this->fixturesPath . '/' . $path . $class . '.php';
+        }
         $definitionHolder = $this->builder->build(new \ReflectionClass($class), null);
         $definition = $definitionHolder['definition'];
         return $definition;
