@@ -33,9 +33,7 @@ class Configuration implements ConfigurationInterface
                         ->always()
                         ->then(function($v) use ($bundles) {
                             foreach($v as $scan => $value) {
-                                if (in_array($scan, $bundles)) {
-                                    $v[$scan]['is_bundle'] = true;
-                                }
+                                $v[$scan]['is_bundle'] = in_array($scan, $bundles);
                             }
                             return $v;
                         })
@@ -48,6 +46,10 @@ class Configuration implements ConfigurationInterface
                         ->validate()
                             ->ifTrue(function($v) { return !$v['is_bundle'] && !empty($v['base_namespace']); })
                             ->thenInvalid('"base_namespace" must only be set for a bundle.')
+                        ->end()
+                        ->validate()
+                            ->ifTrue(function($v) { return !$v['is_bundle'] && empty($v['dir']); })
+                            ->thenInvalid('"dir" must be set for arbitrary keys, define bundles otherwise.')
                         ->end()
                         ->children()
                             ->booleanNode('is_bundle')->end()
