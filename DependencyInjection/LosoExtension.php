@@ -1,9 +1,11 @@
 <?php
 namespace LoSo\LosoBundle\DependencyInjection;
 
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use LoSo\LosoBundle\DependencyInjection\Configuration;
 use LoSo\LosoBundle\DependencyInjection\Loader\AnnotationLoader;
+use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * LosoExtension for LosoBundle.
@@ -17,20 +19,17 @@ class LosoExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $this->setUpLoader($container);
+        $processor = new Processor();
         $bundles = $container->getParameter('kernel.bundles');
+        $configuration = new Configuration(array_keys($bundles));
+        $config = $processor->processConfiguration($configuration, $configs);
 
-        $config = $configs[0];
         if (isset($config['service_scan'])) {
             foreach ($config['service_scan'] as $scanName => $scanConfig) {
-                if (isset($scanConfig['dir'])) {
-                    if (!is_array($scanConfig['dir'])) {
-                        $scanConfig['dir'] = array($scanConfig['dir']);
-                    }
-                    $this->loadDirectories($scanConfig['dir']);
-                } else if(isset($bundles[$scanName])) {
+                if ($scanConfig['is_bundle']) {
                     $this->loadBundle($scanName, $bundles[$scanName], $scanConfig, $container);
                 } else {
-                    throw new \UnexpectedValueException(sprintf('Invalid service_scan definition "%s", must be a valid Bundle or define a directory to scan.', $scanName));
+                    $this->loadDirectories($scanConfig['dir']);
                 }
             }
         }
@@ -56,9 +55,9 @@ class LosoExtension extends Extension
     {
         $bundle = new \ReflectionClass($bundleClass);
         $bundleDir = dirname($bundle->getFilename());
-        if (isset($config['base_namespace']) && is_array($config['base_namespace'])) {
+        if (!empty($config['base_namespace'])) {
             foreach ($config['base_namespace'] as $baseNamespace) {
-                $dir = $bundleDir.'/'.$baseNamespace;
+                $dir = $bundleDir . '/' . $baseNamespace;
                 if (is_dir($dir)) {
                     $this->loadDir($dir);
                 } else {
