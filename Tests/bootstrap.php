@@ -2,6 +2,7 @@
 
 require_once __DIR__.'/../../../../vendor/symfony/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
@@ -13,3 +14,9 @@ $loader->registerNamespaces(array(
     'LoSo' => __DIR__.'/../../..'
 ));
 $loader->register();
+
+AnnotationRegistry::registerLoader(function($class) use($loader) {
+    $loader->loadClass($class);
+    return class_exists($class, false);
+});
+AnnotationRegistry::registerAutoloadNamespace('LoSo\LosoBundle\DependencyInjection\Annotations', __DIR__ . '/../../..');
