@@ -1,0 +1,18 @@
+{
+    "name": "LosoBundle",
+    "type": "Library",
+    "homepage": "http://github.com/loicfrering/LosoBundle",
+    "version": "0.0.5",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Loic Frering",
+            "email": "loic.frering@gmail.com",
+            "homepage": "http://github.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
+
