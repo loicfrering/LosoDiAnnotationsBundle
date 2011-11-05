@@ -5,7 +5,7 @@ Requirements
 ------------
 
 LosoBundle requires PHP 5.3 or later. It has been tested with **Symfony
-v2.0.0BETA3**.
+v2.0.0 final release**.
 
 You will need at least the following libraries in your vendor directory:
 
