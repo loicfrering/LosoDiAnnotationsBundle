@@ -1,7 +1,7 @@
 <?php
 namespace My\Foo\Bar;
 
-use LoSo\LosoBundle\DependencyInjection\Annotations\Service;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Service;
 
 /** @Service */
 class BarClassNamespace

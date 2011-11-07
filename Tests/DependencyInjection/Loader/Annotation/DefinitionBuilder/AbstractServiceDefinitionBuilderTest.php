@@ -1,5 +1,5 @@
 <?php
-namespace LoSo\LosoBundle\Tests\DependencyInjection\Loader\Annotation\DefinitionBuilder;
+namespace Loso\Bundle\DiAnnotationsBundle\Tests\DependencyInjection\Loader\Annotation\DefinitionBuilder;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -17,7 +17,7 @@ class AbstractServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->fixturesPath = realpath(__DIR__ . '/../../../Fixtures/');
         $reader = new AnnotationReader();
-        $this->builder = $this->getMockBuilder('\LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\AbstractServiceDefinitionBuilder')
+        $this->builder = $this->getMockBuilder('\Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\AbstractServiceDefinitionBuilder')
                               ->setConstructorArgs(array($reader))
                               ->getMockForAbstractClass();
     }

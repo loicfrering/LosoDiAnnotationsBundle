@@ -1,6 +1,6 @@
 <?php
 
-namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotation;
+namespace Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation;
 
 /**
  * @author Loïc Frering <loic.frering@gmail.com>

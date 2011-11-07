@@ -1,6 +1,6 @@
 <?php
 
-namespace LoSo\LosoBundle\Repository;
+namespace Loso\Bundle\DiAnnotationsBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

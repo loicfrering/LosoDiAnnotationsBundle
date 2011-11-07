@@ -1,10 +1,10 @@
 Configuration
 =============
 
-You can configure LosoBundle in one of the following ways in
+You can configure LosoDiAnnotationsBundle in one of the following ways in
 app/config/config.yml::
 
-    loso:
+    loso_di_annotations:
         service_scan:
             DemoBundle: ~
             MyBundle:

@@ -1,6 +1,6 @@
 <?php
 
-namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder;
+namespace Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 

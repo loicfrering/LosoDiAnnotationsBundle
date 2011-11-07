@@ -1,7 +1,7 @@
 <?php
-namespace LoSo\LosoBundle\Tests\Repository;
+namespace Loso\Bundle\DiAnnotationsBundle\Tests\Repository;
 
-use LoSo\LosoBundle\Repository\GenericRepository;
+use Loso\Bundle\DiAnnotationsBundle\Repository\GenericRepository;
 
 /**
  * @author Loïc Frering <loic.frering@gmail.com>

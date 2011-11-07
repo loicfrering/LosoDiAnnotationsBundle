@@ -1,9 +1,9 @@
 {
-    "name": "loso/loso-bundle",
+    "name": "loso/di-annotations-bundle",
     "type": "symfony-bundle",
     "description": "A bundle that enables Dependency Injection by annotations into your Symfony2 projects.",
     "keywords": ["annotations","dependencyinjection"],
-    "homepage": "http://github.com/loicfrering/LosoBundle",
+    "homepage": "http://github.com/loicfrering/LosoDiAnnotationsBundle",
     "version": "0.0.5",
     "license": "MIT",
     "authors": [

@@ -1,12 +1,12 @@
 <?php
-namespace LoSo\LosoBundle\Tests\DependencyInjection\Loader;
+namespace Loso\Bundle\DiAnnotationsBundle\Tests\DependencyInjection\Loader;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
-use LoSo\LosoBundle\DependencyInjection\Loader\AnnotationLoader;
-use LoSo\LosoBundle\DependencyInjection\Compiler\RepositoryDefinitionPass;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\AnnotationLoader;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Compiler\RepositoryDefinitionPass;
 
 class RepositoryDefinitionTest extends \PHPUnit_Framework_TestCase
 {

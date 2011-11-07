@@ -1,5 +1,5 @@
 <?php
-use LoSo\LosoBundle\DependencyInjection\Annotations\Controller;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Controller;
 
 /** @Controller("bar.controller") */
 class BarController

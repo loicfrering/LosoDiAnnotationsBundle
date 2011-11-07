@@ -1,7 +1,7 @@
 <?php
-namespace LoSo\LosoBundle\Tests\DepedencyInjection\Compiler;
+namespace Loso\Bundle\DiAnnotationsBundle\Tests\DepedencyInjection\Compiler;
 
-use LoSo\LosoBundle\DependencyInjection\Compiler\RepositoryDefinitionPass;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Compiler\RepositoryDefinitionPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -26,14 +26,14 @@ class RepositoryDefinitionPassTest extends \PHPUnit_Framework_TestCase
 
         $definition = new Definition('BarRepository');
         $definition->addTag('loso.doctrine.repository', array(
-            'entity' => 'LosoBundle:BarEntity',
+            'entity' => 'LosoDiAnnotationsBundle:BarEntity',
             'entityManager' => 'test'
         ));
         $this->container->setDefinition('bar.repository', $definition);
 
         $definition = new Definition('BazRepository');
         $definition->addTag('loso.doctrine.repository', array(
-            'entity' => 'LoSo\LosoBundle\Entity\BazEntity',
+            'entity' => 'Loso\Bundle\DiAnnotationsBundle\Entity\BazEntity',
             'entityManager' => 'test'
         ));
         $this->container->setDefinition('baz.repository', $definition);
@@ -79,8 +79,8 @@ class RepositoryDefinitionPassTest extends \PHPUnit_Framework_TestCase
         $arguments = $definition->getArguments();
         $this->assertEquals(new Reference('doctrine.orm.test_entity_manager'), $arguments[0]);
 
-        $this->assertTrue($this->container->hasDefinition('loso.doctrine.metadata.test.LosoBundle.BarEntity'));
-        $definition = $this->container->getDefinition('loso.doctrine.metadata.test.LosoBundle.BarEntity');
+        $this->assertTrue($this->container->hasDefinition('loso.doctrine.metadata.test.LosoDiAnnotationsBundle.BarEntity'));
+        $definition = $this->container->getDefinition('loso.doctrine.metadata.test.LosoDiAnnotationsBundle.BarEntity');
         $this->assertEquals('doctrine.orm.test_entity_manager', $definition->getFactoryService());
     }
 
@@ -90,11 +90,11 @@ class RepositoryDefinitionPassTest extends \PHPUnit_Framework_TestCase
 
         $definition = $this->container->getDefinition('bar.repository');
         $arguments = $definition->getArguments();
-        $this->assertEquals(new Reference('loso.doctrine.metadata.test.LosoBundle.BarEntity'), $arguments[1]);
+        $this->assertEquals(new Reference('loso.doctrine.metadata.test.LosoDiAnnotationsBundle.BarEntity'), $arguments[1]);
 
-        $this->assertTrue($this->container->hasDefinition('loso.doctrine.metadata.test.LosoBundle.BarEntity'));
-        $definition = $this->container->getDefinition('loso.doctrine.metadata.test.LosoBundle.BarEntity');
-        $this->assertEquals(array('LosoBundle:BarEntity'), $definition->getArguments());
+        $this->assertTrue($this->container->hasDefinition('loso.doctrine.metadata.test.LosoDiAnnotationsBundle.BarEntity'));
+        $definition = $this->container->getDefinition('loso.doctrine.metadata.test.LosoDiAnnotationsBundle.BarEntity');
+        $this->assertEquals(array('LosoDiAnnotationsBundle:BarEntity'), $definition->getArguments());
     }
 
     public function testEntityWithNamespace()
@@ -103,10 +103,10 @@ class RepositoryDefinitionPassTest extends \PHPUnit_Framework_TestCase
 
         $definition = $this->container->getDefinition('baz.repository');
         $arguments = $definition->getArguments();
-        $this->assertEquals(new Reference('loso.doctrine.metadata.test.LoSo.LosoBundle.Entity.BazEntity'), $arguments[1]);
+        $this->assertEquals(new Reference('loso.doctrine.metadata.test.Loso.Bundle.DiAnnotationsBundle.Entity.BazEntity'), $arguments[1]);
 
-        $this->assertTrue($this->container->hasDefinition('loso.doctrine.metadata.test.LoSo.LosoBundle.Entity.BazEntity'));
-        $definition = $this->container->getDefinition('loso.doctrine.metadata.test.LoSo.LosoBundle.Entity.BazEntity');
-        $this->assertEquals(array('LoSo\LosoBundle\Entity\BazEntity'), $definition->getArguments());
+        $this->assertTrue($this->container->hasDefinition('loso.doctrine.metadata.test.Loso.Bundle.DiAnnotationsBundle.Entity.BazEntity'));
+        $definition = $this->container->getDefinition('loso.doctrine.metadata.test.Loso.Bundle.DiAnnotationsBundle.Entity.BazEntity');
+        $this->assertEquals(array('Loso\Bundle\DiAnnotationsBundle\Entity\BazEntity'), $definition->getArguments());
     }
 }

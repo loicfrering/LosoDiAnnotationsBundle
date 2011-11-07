@@ -1,8 +1,8 @@
 <?php
-namespace LoSo\LosoBundle\Tests\DependencyInjection\Loader\Annotation\DefinitionBuilder;
+namespace Loso\Bundle\DiAnnotationsBundle\Tests\DependencyInjection\Loader\Annotation\DefinitionBuilder;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\RepositoryDefinitionBuilder;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\RepositoryDefinitionBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -27,7 +27,7 @@ class RepositoryDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
         if (!class_exists($class, false)) {
             require $this->fixturesPath . '/' . $path . $class . '.php';
         }
-        return $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'LoSo\LosoBundle\DependencyInjection\Annotations\Repository'));
+        return $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Repository'));
     }
 
     public function testRepositoryIdResolution()

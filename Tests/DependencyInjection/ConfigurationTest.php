@@ -1,7 +1,7 @@
 <?php
-namespace LoSo\LosoBundle\Test\DependencyInjection;
+namespace Loso\Bundle\DiAnnotationsBundle\Test\DependencyInjection;
 
-use LoSo\LosoBundle\DependencyInjection\Configuration;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder;
+namespace Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder;
 
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\ServiceIdGenerator;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\ServiceIdGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
 

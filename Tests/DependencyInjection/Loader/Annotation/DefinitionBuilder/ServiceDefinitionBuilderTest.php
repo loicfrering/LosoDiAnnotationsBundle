@@ -1,8 +1,8 @@
 <?php
-namespace LoSo\LosoBundle\Tests\DependencyInjection\Loader\Annotation\DefinitionBuilder;
+namespace Loso\Bundle\DiAnnotationsBundle\Tests\DependencyInjection\Loader\Annotation\DefinitionBuilder;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ServiceDefinitionBuilder;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ServiceDefinitionBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -27,7 +27,7 @@ class ServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
         if (!class_exists($class, false)) {
             require $this->fixturesPath . '/' . $path . $class . '.php';
         }
-        $definitionHolder = $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'LoSo\LosoBundle\DependencyInjection\Annotations\Service'));
+        $definitionHolder = $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Service'));
         return $definitionHolder['definition'];
     }
 
@@ -37,22 +37,22 @@ class ServiceDefinitionBuilderTest extends \PHPUnit_Framework_TestCase
         if (!class_exists($class, false)) {
             require $this->fixturesPath . '/annotations/service/' . $class . '.php';
         }
-        $definitionHolder = $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'LoSo\LosoBundle\DependencyInjection\Annotations\Service'));
+        $definitionHolder = $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Service'));
         $this->assertEquals('foo', $definitionHolder['id']);
 
         $class = 'BarClass';
         require $this->fixturesPath . '/annotations/service/' . $class . '.php';
-        $definitionHolder = $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'LoSo\LosoBundle\DependencyInjection\Annotations\Service'));
+        $definitionHolder = $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Service'));
         $this->assertEquals('barClass', $definitionHolder['id']);
 
         $class = 'Old_Namespace_BarClassOldNamespace';
         require $this->fixturesPath . '/annotations/service/BarClassOldNamespace.php';
-        $definitionHolder = $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'LoSo\LosoBundle\DependencyInjection\Annotations\Service'));
+        $definitionHolder = $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Service'));
         $this->assertEquals('barClassOldNamespace', $definitionHolder['id']);
 
         $class = '\My\Foo\Bar\BarClassNamespace';
         require $this->fixturesPath . '/annotations/service/BarClassNamespace.php';
-        $definitionHolder = $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'LoSo\LosoBundle\DependencyInjection\Annotations\Service'));
+        $definitionHolder = $this->builder->build(new \ReflectionClass($class), $this->reader->getClassAnnotation(new \ReflectionClass($class), 'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Service'));
         $this->assertEquals('barClassNamespace', $definitionHolder['id']);
     }
 

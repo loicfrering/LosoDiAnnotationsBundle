@@ -1,18 +1,18 @@
 <?php
-namespace LoSo\LosoBundle\DependencyInjection;
+namespace Loso\Bundle\DiAnnotationsBundle\DependencyInjection;
 
-use LoSo\LosoBundle\DependencyInjection\Configuration;
-use LoSo\LosoBundle\DependencyInjection\Loader\AnnotationLoader;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Configuration;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\AnnotationLoader;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * LosoExtension for LosoBundle.
+ * LosoExtension for LosoDiAnnotationsBundle.
  *
  * @author Loïc Frering <loic.frering@gmail.com>
  */
-class LosoExtension extends Extension
+class LosoDiAnnotationsExtension extends Extension
 {
     private $loader;
 

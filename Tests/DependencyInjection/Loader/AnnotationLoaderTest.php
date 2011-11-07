@@ -1,10 +1,10 @@
 <?php
-namespace LoSo\LosoBundle\Tests\DependencyInjection\Loader;
+namespace Loso\Bundle\DiAnnotationsBundle\Tests\DependencyInjection\Loader;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use LoSo\LosoBundle\DependencyInjection\Loader\AnnotationLoader;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\AnnotationLoader;
 
 class AnnotationLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,15 +14,15 @@ class AnnotationLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->fixturesPath = realpath(__DIR__ . '/../Fixtures/');
 
-        $this->serviceBuilder = $this->getMockBuilder('\LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ServiceDefinitionBuilder')
+        $this->serviceBuilder = $this->getMockBuilder('\Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ServiceDefinitionBuilder')
                                      ->disableOriginalConstructor()
                                      ->getMock();
 
-        $this->repositoryBuilder = $this->getMockBuilder('\LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\RepositoryDefinitionBuilder')
+        $this->repositoryBuilder = $this->getMockBuilder('\Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\RepositoryDefinitionBuilder')
                                         ->disableOriginalConstructor()
                                         ->getMock();
 
-        $this->controllerBuilder = $this->getMockBuilder('\LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ControllerDefinitionBuilder')
+        $this->controllerBuilder = $this->getMockBuilder('\Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ControllerDefinitionBuilder')
                                         ->disableOriginalConstructor()
                                         ->getMock();
     }
@@ -48,9 +48,9 @@ class AnnotationLoaderTest extends \PHPUnit_Framework_TestCase
                              ->will($this->returnCallback($buildCallback));
 
         $builders = array(
-            'LoSo\LosoBundle\DependencyInjection\Annotations\Service' => $this->serviceBuilder,
-            'LoSo\LosoBundle\DependencyInjection\Annotations\Repository' => $this->repositoryBuilder,
-            'LoSo\LosoBundle\DependencyInjection\Annotations\Controller' => $this->controllerBuilder
+            'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Service' => $this->serviceBuilder,
+            'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Repository' => $this->repositoryBuilder,
+            'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Controller' => $this->controllerBuilder
         );
         $loader = new AnnotationLoader($container, $builders);
 

@@ -17,10 +17,9 @@ $loader->registerNamespaceFallbacks(array(
 ));
 $loader->register();
 
-spl_autoload_register(function($class)
-{
-    if (0 === strpos($class, 'LoSo\\LosoBundle\\')) {
-        $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 2)).'.php';
+spl_autoload_register(function($class) {
+    if (0 === strpos($class, 'Loso\\Bundle\\DiAnnotationsBundle\\')) {
+        $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 3)).'.php';
         if (!stream_resolve_include_path($path)) {
             return false;
         }
@@ -28,9 +27,13 @@ spl_autoload_register(function($class)
         return true;
     }
 });
-
-AnnotationRegistry::registerLoader(function($class) use($loader) {
-    $loader->loadClass($class);
-    return class_exists($class, false);
+AnnotationRegistry::registerLoader(function($class) {
+    if (0 === strpos($class, 'Loso\\Bundle\\DiAnnotationsBundle\\')) {
+        $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 3)).'.php';
+        if (!stream_resolve_include_path($path)) {
+            return false;
+        }
+        require_once $path;
+        return true;
+    }
 });
-AnnotationRegistry::registerAutoloadNamespace('LoSo\LosoBundle\DependencyInjection\Annotations', __DIR__ . '/../../..');

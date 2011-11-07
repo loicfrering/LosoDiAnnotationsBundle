@@ -1,12 +1,12 @@
 <?php
-namespace LoSo\LosoBundle;
+namespace Loso\Bundle\DiAnnotationsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
-use LoSo\LosoBundle\DependencyInjection\Compiler\RepositoryDefinitionPass;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Compiler\RepositoryDefinitionPass;
 
-class LosoBundle extends Bundle
+class LosoDiAnnotationsBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

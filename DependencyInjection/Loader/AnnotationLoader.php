@@ -1,14 +1,14 @@
 <?php
 
-namespace LoSo\LosoBundle\DependencyInjection\Loader;
+namespace Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader;
 
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Doctrine\Common\Annotations\AnnotationReader;
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\AnnotationDefinitionBuilderInterface;
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ControllerDefinitionBuilder;
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ServiceDefinitionBuilder;
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\RepositoryDefinitionBuilder;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\AnnotationDefinitionBuilderInterface;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ControllerDefinitionBuilder;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\ServiceDefinitionBuilder;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DefinitionBuilder\RepositoryDefinitionBuilder;
 
 /**
  * AnnotationLoader loads annotated class service definitions.
@@ -28,9 +28,9 @@ class AnnotationLoader extends Loader
 
         if (empty($builders)) {
             $this->setBuilders(array(
-                'LoSo\LosoBundle\DependencyInjection\Annotations\Service' => new ServiceDefinitionBuilder($this->reader),
-                'LoSo\LosoBundle\DependencyInjection\Annotations\Repository' => new RepositoryDefinitionBuilder($this->reader),
-                'LoSo\LosoBundle\DependencyInjection\Annotations\Controller' => new ControllerDefinitionBuilder($this->reader)
+                'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Service' => new ServiceDefinitionBuilder($this->reader),
+                'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Repository' => new RepositoryDefinitionBuilder($this->reader),
+                'Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Controller' => new ControllerDefinitionBuilder($this->reader)
             ));
         } else {
             $this->setBuilders($builders);

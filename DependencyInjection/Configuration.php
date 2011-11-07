@@ -1,5 +1,5 @@
 <?php
-namespace LoSo\LosoBundle\DependencyInjection;
+namespace Loso\Bundle\DiAnnotationsBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;

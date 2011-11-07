@@ -16,7 +16,7 @@ Usage::
 
 Example::
 
-    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+    use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations as DI;
     use Doctrine\ORM\EntityRepository;
 
     /** @DI\Repository("FooBundle:Item") */
@@ -34,7 +34,7 @@ Example::
 
 Now you can easily inject the repository in your controller::
 
-    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+    use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations as DI;
 
     /** @DI\Controller */
     class ItemController

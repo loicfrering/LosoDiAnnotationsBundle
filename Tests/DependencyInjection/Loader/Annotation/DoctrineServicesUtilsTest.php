@@ -1,7 +1,7 @@
 <?php
-namespace LoSo\LosoBundle\Tests\DependencyInjection\Loader\Annotation;
+namespace Loso\Bundle\DiAnnotationsBundle\Tests\DependencyInjection\Loader\Annotation;
 
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DoctrineServicesUtils;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DoctrineServicesUtils;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -36,29 +36,29 @@ class DoctrineServicesUtilsTest extends \PHPUnit_Framework_TestCase
     {
         $simpleEntityMetadataId = $this->doctrineServicesUtils->resolveEntityMetadataId('User', 'default');
         $this->assertEquals('loso.doctrine.metadata.default.User', $simpleEntityMetadataId);
-        $namespacedEntityMetadataId = $this->doctrineServicesUtils->resolveEntityMetadataId('LoSo\LosoBundle\Entity\User', 'test');
-        $this->assertEquals('loso.doctrine.metadata.test.LoSo.LosoBundle.Entity.User', $namespacedEntityMetadataId);
-        $aliasedEntityMetadataId = $this->doctrineServicesUtils->resolveEntityMetadataId('LosoBundle:User', 'test');
-        $this->assertEquals('loso.doctrine.metadata.test.LosoBundle.User', $aliasedEntityMetadataId);
+        $namespacedEntityMetadataId = $this->doctrineServicesUtils->resolveEntityMetadataId('Loso\Bundle\DiAnnotationsBundle\Entity\User', 'test');
+        $this->assertEquals('loso.doctrine.metadata.test.Loso.Bundle.DiAnnotationsBundle.Entity.User', $namespacedEntityMetadataId);
+        $aliasedEntityMetadataId = $this->doctrineServicesUtils->resolveEntityMetadataId('LosoDiAnnotationsBundle:User', 'test');
+        $this->assertEquals('loso.doctrine.metadata.test.LosoDiAnnotationsBundle.User', $aliasedEntityMetadataId);
     }
 
     public function testGetEntityMetadataReference()
     {
         $simpleEntityMetadataRef = $this->doctrineServicesUtils->getEntityMetadataReference('User', 'default');
         $this->assertEquals(new Reference('loso.doctrine.metadata.default.User'), $simpleEntityMetadataRef);
-        $namespacedEntityMetadataRef = $this->doctrineServicesUtils->getEntityMetadataReference('LoSo\LosoBundle\Entity\User', 'test');
-        $this->assertEquals(new Reference('loso.doctrine.metadata.test.LoSo.LosoBundle.Entity.User'), $namespacedEntityMetadataRef);
-        $aliasedEntityMetadataRef = $this->doctrineServicesUtils->getEntityMetadataReference('LosoBundle:User', 'test');
-        $this->assertEquals(new Reference('loso.doctrine.metadata.test.LosoBundle.User'), $aliasedEntityMetadataRef);
+        $namespacedEntityMetadataRef = $this->doctrineServicesUtils->getEntityMetadataReference('Loso\Bundle\DiAnnotationsBundle\Entity\User', 'test');
+        $this->assertEquals(new Reference('loso.doctrine.metadata.test.Loso.Bundle.DiAnnotationsBundle.Entity.User'), $namespacedEntityMetadataRef);
+        $aliasedEntityMetadataRef = $this->doctrineServicesUtils->getEntityMetadataReference('LosoDiAnnotationsBundle:User', 'test');
+        $this->assertEquals(new Reference('loso.doctrine.metadata.test.LosoDiAnnotationsBundle.User'), $aliasedEntityMetadataRef);
     }
 
     public function testGetEntityMetadataDefinition()
     {
-        $definition = $this->doctrineServicesUtils->getEntityMetadataDefinition('LosoBundle:User', 'default');
+        $definition = $this->doctrineServicesUtils->getEntityMetadataDefinition('LosoDiAnnotationsBundle:User', 'default');
 
         $this->assertEquals('Doctrine\ORM\Mapping\ClassMetadata', $definition->getClass());
         $this->assertEquals('doctrine.orm.entity_manager', $definition->getFactoryService());
         $this->assertEquals('getClassMetadata', $definition->getFactoryMethod());
-        $this->assertEquals(array('LosoBundle:User'), $definition->getArguments());
+        $this->assertEquals(array('LosoDiAnnotationsBundle:User'), $definition->getArguments());
     }
 }

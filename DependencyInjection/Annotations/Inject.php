@@ -1,6 +1,6 @@
 <?php
 
-namespace LoSo\LosoBundle\DependencyInjection\Annotations;
+namespace Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations;
 
 use Doctrine\Common\Annotations\Annotation;
 

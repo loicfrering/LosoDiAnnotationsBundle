@@ -1,7 +1,7 @@
 Annotations
 ===========
 
-There are 4 annotations available in LosoBundle::
+There are 4 annotations available in LosoDiAnnotationsBundle::
 
 * @Service for service definition.
 * @Repository for repository definition.
@@ -16,7 +16,7 @@ PHP's use statements.
 
 You can use a namespace alias for the annotations' namespace::
 
-    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+    use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations as DI;
 
     /** @DI\Service */
     class FooService
@@ -29,8 +29,8 @@ You can use a namespace alias for the annotations' namespace::
 
 Or you can import each annotation::
 
-    use LoSo\LosoBundle\DependencyInjection\Annotations\Service;
-    use LoSo\LosoBundle\DependencyInjection\Annotations\Inject;
+    use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Service;
+    use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations\Inject;
 
     /** @Service */
     class FooService

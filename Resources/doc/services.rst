@@ -68,7 +68,7 @@ as argument.
 
 Example::
 
-    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+    use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations as DI;
 
     /** @DI\Service */
     class MyService
@@ -93,7 +93,7 @@ Will declare in YAML::
 
 Setting explicit service id::
 
-    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+    use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations as DI;
 
     /** @DI\Service */
     class MyService
@@ -116,7 +116,7 @@ Will declare in YAML::
 
 With multiple constructor arguments::
 
-    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+    use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations as DI;
 
     /** @DI\Service */
     class MyService
@@ -149,7 +149,7 @@ inject, otherwise it will be determined thanks to the method name.
 
 Example::
 
-    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+    use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations as DI;
 
     /** @DI\Service */
     class MyService
@@ -210,7 +210,7 @@ otherwise.
 
 Example::
 
-    use LoSo\LosoBundle\DependencyInjection\Annotations as DI;
+    use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations as DI;
 
     /** @DI\Service */
     class MyService

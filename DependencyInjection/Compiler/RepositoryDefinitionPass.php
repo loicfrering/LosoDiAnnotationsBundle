@@ -1,8 +1,8 @@
 <?php
 
-namespace LoSo\LosoBundle\DependencyInjection\Compiler;
+namespace Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Compiler;
 
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\DoctrineServicesUtils;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\DoctrineServicesUtils;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 

@@ -1,7 +1,7 @@
 <?php
-namespace LoSo\LosoBundle\Tests\DependencyInjection\Loader\Annotation;
+namespace Loso\Bundle\DiAnnotationsBundle\Tests\DependencyInjection\Loader\Annotation;
 
-use LoSo\LosoBundle\DependencyInjection\Loader\Annotation\ServiceIdGenerator;
+use Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation\ServiceIdGenerator;
 
 /**
  * @author Loïc Frering <loic.frering@gmail.com>
@@ -33,7 +33,7 @@ class ServiceIdGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->reflClassStub->expects($this->any())
                             ->method('getName')
-                            ->will($this->returnValue('\LoSo\LosoBundle\UserRepository'));
+                            ->will($this->returnValue('\Loso\Bundle\DiAnnotationsBundle\UserRepository'));
 
         $this->assertEquals('userRepository', $this->serviceIdGenerator->generate($this->reflClassStub));
     }
@@ -42,7 +42,7 @@ class ServiceIdGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->reflClassStub->expects($this->any())
                             ->method('getName')
-                            ->will($this->returnValue('LoSo_LosoBundle_UserRepository'));
+                            ->will($this->returnValue('Loso_Bundle_DiAnnotationsBundle_UserRepository'));
 
         $this->assertEquals('userRepository', $this->serviceIdGenerator->generate($this->reflClassStub));
     }

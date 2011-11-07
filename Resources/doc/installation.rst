@@ -4,8 +4,8 @@ Installation
 Requirements
 ------------
 
-LosoBundle requires PHP 5.3 or later. It has been tested with **Symfony
-v2.0.0 final release**.
+LosoDiAnnotationsBundle requires PHP 5.3 or later. It has been tested with
+**Symfony v2.0.4**.
 
 You will need at least the following libraries in your vendor directory:
 
@@ -21,31 +21,31 @@ also need:
 Installation
 ------------
 
-1. Add LosoBundle to your vendor libraries::
+1. Add LosoDiAnnotationsBundle to your vendor libraries::
 
-    $ cp LosoBundle vendor/bundles/LoSo/
+    $ cp -r <path_to>/LosoDiAnnotationsBundle vendor/bundles/Loso/Bundle/DiAnnotationsBundle
 
    Or via Git::
 
-    $ git submodule add git://github.com/loicfrering/LosoBundle.git vendor/bundles/LoSo/LosoBundle
+    $ git submodule add git://github.com/loicfrering/LosoDiAnnotationsBundle.git vendor/bundles/Loso/Bundle/DiAnnotationsBundle
 
-2. Register LoSo namespace with the autoloader in app/autoload.php::
+2. Register Loso namespace with the autoloader in app/autoload.php::
 
     $loader->registerNamespaces(array(
         // ...
         'Symfony'          => array(__DIR__.'/../vendor/symfony/src', __DIR__.'/../vendor/bundles'),
         'Doctrine\\Common' => __DIR__.'/../vendor/doctrine-common/lib',
-        'LoSo'             => __DIR__.'/../vendor/bundles',
+        'Loso'             => __DIR__.'/../vendor/bundles',
         // ...
     ));
 
-3. Register LosoBundle with your application's kernel in app/AppKernel.php::
+3. Register LosoDiAnnotationsBundle with your application's kernel in app/AppKernel.php::
 
     public function registerBundles()
     {
         $bundles = array(
             // ...
-            new LoSo\LosoBundle\LosoBundle(),
+            new Loso\Bundle\DiAnnotationsBundle\LosoDiAnnotationsBundle(),
             // ...
         );
 

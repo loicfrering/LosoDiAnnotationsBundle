@@ -1,6 +1,6 @@
 <?php
 
-namespace LoSo\LosoBundle\DependencyInjection\Loader\Annotation;
+namespace Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Loader\Annotation;
 
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
