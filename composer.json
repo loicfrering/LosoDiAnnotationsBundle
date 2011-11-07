@@ -1,7 +1,7 @@
 {
-    "name": "LosoBundle",
-    "type": "Library",
-    "description": "Logging for PHP 5.3",
+    "name": "loso/loso-bundle",
+    "type": "symfony-bundle",
+    "description": "A bundle that enables Dependency Injection by annotations into your Symfony2 projects.",
     "keywords": ["annotations","dependencyinjection"],
     "homepage": "http://github.com/loicfrering/LosoBundle",
     "version": "0.0.5",
@@ -14,7 +14,9 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.2",
+        "symfony/symfony": ">=2.0.4",
+        "doctrine/orm": ">=2.1"
     }
 }
 
