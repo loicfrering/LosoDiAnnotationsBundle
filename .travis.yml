@@ -1,4 +1,6 @@
 language: php
-php: 5.3.8
+php:
+  - 5.3
+  - 5.4
 before_script: php vendors.php
 script: phpunit --colors --bootstrap Tests/bootstrap.php Tests
