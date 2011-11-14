@@ -7,6 +7,8 @@ What is LosoDiAnnotationsBundle?
 A bundle that enables Dependency Injection by annotations into your Symfony2
 projects.
 
+[![Build Status](https://secure.travis-ci.org/loicfrering/LosoDiAnnotationsBundle.png)](http://travis-ci.org/loicfrering/LosoDiAnnotationsBundle)
+
 Requirements
 ------------
 
@@ -44,6 +46,9 @@ the vendors libraries in Tests/bootstrap.php and run the following command from
 the project's root:
 
     phpunit --colors --bootstrap Tests/bootstrap.php Tests
+
+Also LosoDiAnnotationsBundle uses Travis for continuous integration, see:
+[![Build Status](https://secure.travis-ci.org/loicfrering/LosoDiAnnotationsBundle.png)](http://travis-ci.org/loicfrering/LosoDiAnnotationsBundle)
 
 Installation
 ------------
