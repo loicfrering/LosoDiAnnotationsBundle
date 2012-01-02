@@ -26,10 +26,10 @@ if (!is_dir($vendorDir = dirname(__FILE__).'/vendor')) {
 }
 
 $deps = array(
-    array('symfony', 'http://github.com/symfony/symfony', '2.0.4'),
-    array('doctrine', 'http://github.com/doctrine/doctrine2.git', '2.1.2'),
-    array('doctrine-dbal', 'http://github.com/doctrine/dbal.git', '2.1.3'),
-    array('doctrine-common', 'http://github.com/doctrine/common.git', '2.1.2'),
+    array('symfony', 'git://github.com/symfony/symfony', '2.0.4'),
+    array('doctrine', 'git://github.com/doctrine/doctrine2.git', '2.1.2'),
+    array('doctrine-dbal', 'git://github.com/doctrine/dbal.git', '2.1.3'),
+    array('doctrine-common', 'git://github.com/doctrine/common.git', '2.1.2'),
 );
 
 foreach ($deps as $dep) {
