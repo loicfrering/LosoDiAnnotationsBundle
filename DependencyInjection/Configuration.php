@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
                     ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('scan')
                     ->beforeNormalization()
-                        ->always()
+                        ->ifArray()
                         ->then(function($v) use ($bundles) {
                             foreach($v as $scan => $value) {
                                 $v[$scan]['is_bundle'] = in_array($scan, $bundles);
