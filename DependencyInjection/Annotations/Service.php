@@ -5,6 +5,7 @@ namespace Loso\Bundle\DiAnnotationsBundle\DependencyInjection\Annotations;
 use Doctrine\Common\Annotations\Annotation;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/** @Annotation */
 final class Service extends Annotation
 {
     public $name;
